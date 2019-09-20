@@ -34,6 +34,7 @@ RUN groupadd -r try_itk && useradd -r -g try_itk -m ${user} -p ${user}
 USER ${user}
 WORKDIR /home/${user}
 RUN git clone https://github.com/InsightSoftwareConsortium/ITK.git -b release
+  && mkdir build && cd build && make && make install
 
 USER ${user}
 WORKDIR /home/${user}
