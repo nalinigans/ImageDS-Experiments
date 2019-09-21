@@ -25,20 +25,6 @@ install_mvn() {
 	echo "export PATH=\${M2_HOME}/bin:\${PATH}" >>  $PREREQS_ENV
 }
 
-install_protobuf() {
-	echo "Installing Protobuf"
-	pushd /tmp
-	git clone -b 3.0.x --single-branch https://github.com/google/protobuf.git &&
-	pushd protobuf &&
-	./autogen.sh &&
-	./configure --prefix=/usr --with-pic &&
-	make -j4 && make install &&
-	echo "Installing Protobuf DONE"
-	popd
-	rm -fr /tmp/protobuf*
-	popd
-}
-
 install_openssl() {
   echo "Installing OpenSSL"
 	pushd /tmp
@@ -102,14 +88,7 @@ install_os_prerequisites() {
 install_prerequisites() {
 	install_os_prerequisites &&
 	source $PREREQS_ENV &&
-	install_mvn &&
-	install_protobuf
+	install_mvn
 }
 
-install_prerequisites $2
-if [[ $1 ]]; then
-	echo "Installing static libraries"
-	install_openssl &&
-	install_curl &&
-	install_uuid
-fi
+install_prerequisites
