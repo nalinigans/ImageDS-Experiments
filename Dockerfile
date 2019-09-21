@@ -33,8 +33,8 @@ RUN echo "Setting up user" && groupadd -r try_itk && useradd -r -g try_itk -m ${
 
 USER ${user}
 WORKDIR /home/${user}
-RUN git clone https://github.com/InsightSoftwareConsortium/ITK.git -b release \
-  && cd ITK && mkdir build && cd build && cmake3 .. && make && make install
+RUN git clone https://github.com/InsightSoftwareConsortium/ITK.git -b release ITK \
+  && cd ITK && mkdir build && cd build
 
 USER ${user}
 WORKDIR /home/${user}
