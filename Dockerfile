@@ -29,12 +29,12 @@ COPY scripts/prereqs /build
 WORKDIR /build
 RUN ./install_prereqs.sh
 
-RUN groupadd -r try_itk && useradd -r -g try_itk -m ${user} -p ${user}
+RUN echo "Setting up user" && groupadd -r try_itk && useradd -r -g try_itk -m ${user} && echo "Setting up user Done"
 
 USER ${user}
 WORKDIR /home/${user}
-RUN git clone https://github.com/InsightSoftwareConsortium/ITK.git -b release
-  && mkdir build && cd build && make && make install
+RUN git clone https://github.com/InsightSoftwareConsortium/ITK.git -b release \
+  && cd ITK && mkdir build && cd build && cmake3 .. && make && make install
 
 USER ${user}
 WORKDIR /home/${user}
