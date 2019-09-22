@@ -22,5 +22,5 @@ Example
     
 ## To read...
 ### [Comparison](https://realpython.com/storing-images-in-python/) of using png/LMDB/HDF5 for storing images using python
-### [Implementation](https://etd.ohiolink.edu/!etd.send_file?accession=osu1524063297966335&disposition=inline) of Array Storage using HDF5 as front end and tiledb as storage
+### [Paper](https://etd.ohiolink.edu/!etd.send_file?accession=osu1524063297966335&disposition=inline) Implementation of image storage using HDF5 as front end and tiledb as storage
 
