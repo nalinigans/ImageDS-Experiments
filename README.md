@@ -1,6 +1,6 @@
 # ImageDS-Experiments
 
-## Public dicom toolkits
+## Public DICOM toolkits
 ### [DCMTK - Github](https://github.com/DCMTK/dcmtk)
 [Dicom Toolkit - DCMTK](https://dicom.offis.de/dcmtk)
 
