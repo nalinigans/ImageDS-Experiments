@@ -1,7 +1,8 @@
 # ImageDS-Experiments
 
-## Using [Dicom Toolkit - DCMTK](https://dicom.offis.de/dcmtk)
+## Public dicom toolkits
 ### [DCMTK - Github](https://github.com/DCMTK/dcmtk)
+[Dicom Toolkit - DCMTK](https://dicom.offis.de/dcmtk)
 
 ### [GDCM](https://github.com/malaterre/GDCM)
 Used by the Insight Toolkit...
