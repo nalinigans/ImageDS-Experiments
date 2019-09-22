@@ -19,4 +19,8 @@ Example
     * How do we use itk? Do we read in the DICOM image, filter, register and segment before storing in ImageDS?
     * Can all the images be registered/segmented/scaled in a similar fashion?
     * If using Hadoop FileSystem HDFS, filesize is not a problem and we can store all the images together. Also, using tiledb we can write out one image/sets of images at a time, `concurrently` as each will write to a different fragment and consolidate if necessary later.
+    
+## To read...
+### [Comparison](https://realpython.com/storing-images-in-python/) of using png/LMDB/HDF5 for storing images using python
+### [Implementation](https://etd.ohiolink.edu/!etd.send_file?accession=osu1524063297966335&disposition=inline) of Array Storage using HDF5 as front end and tiledb as storage
 
