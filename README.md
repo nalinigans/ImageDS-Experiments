@@ -3,6 +3,9 @@
 ## Using [Dicom Toolkit - DCMTK](https://dicom.offis.de/dcmtk)
 ### [DCMTK - Github](https://github.com/DCMTK/dcmtk)
 
+### [GDCM](https://github.com/malaterre/GDCM)
+Used by the Insight Toolkit...
+
 ## Using [Insight TookKit - ITK](https://www.itk.org/)
 
 ### Docker Install of ITK
