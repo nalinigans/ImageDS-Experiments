@@ -8,7 +8,8 @@ Example
 * docker run -it try_itk:centos7 # For a bash shell in the docker image
 
 ### [Documentation](https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch1.html) of ITK 
-Pay attention to the following chapters -
+
+### ITK Usage with ImageDS
 * First experiment to read from a DICOM image and write to ImageDS and vice versa. Start with
   * Implement itk's readers and writers
     * [itk::ImageFileReader](https://www.itk.org/Doxygen/html/classitk_1_1ImageFileReader.html)
