@@ -29,7 +29,7 @@ COPY scripts/prereqs /build
 WORKDIR /build
 RUN ./install_prereqs.sh
 
-RUN groupadd -r try_itk && useradd -r -g try_itk -m ${user}
+RUN groupadd -r try_itk && useradd -r -g try_itk -G wheel -m ${user} && echo ${user}:${user} | chpasswd
 
 USER ${user}
 WORKDIR /home/${user}

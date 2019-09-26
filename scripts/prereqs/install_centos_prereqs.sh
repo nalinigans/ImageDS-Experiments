@@ -24,7 +24,9 @@ install_mpi() {
 install_prerequisites_centos() {
 	yum update -y -q &&
 	yum install -y sudo &&
-	yum install -y -q which wget git make cmake cmake3 &&
+	yum install -y -q epel-release &&
+	yum install -y -q which wget git git-lfs make cmake cmake3 &&
+	git lfs install --skip-smudge &&
 	install_mpi &&
 	install_devtoolset &&
 	install_openjdk &&
