@@ -238,12 +238,16 @@ TEST_CASE_METHOD(TempDir, "Test to and from array", "[to_from_array]") {
   CHECK(!imageds.array_info(ARRAY, array_info));
   //TODO: check array_info
 
-  std::vector<char> from_array_buffer;
+  std::vector<char> from_array_buffer = {'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z'};
   from_array_buffer.resize(8);
   buffers.clear();
   buffers.push_back(from_array_buffer);
 
   CHECK(!imageds.from_array(array, buffers));
+  CHECK(buffers.size() == 1);
+  CHECK(buffers[0].size() == 8);
+  CHECK(buffers[0][0] == 'A');
+  CHECK(buffers[0][7] == 'H');
 }
 
 /*class ImageDSTestFixture {
