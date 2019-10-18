@@ -1,0 +1,4 @@
+[submodule "dependencies/TileDB"]
+	path = dependencies/TileDB
+	url = https://github.com/OmicsDataAutomation/TileDB.git
+	branch = master
