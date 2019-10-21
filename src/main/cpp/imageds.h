@@ -32,6 +32,8 @@
 #ifndef __IMAGEDS_H__
 #define __IMAGEDS_H__
 
+#include "error.h"
+
 #include <stdarg.h>
 #include <stdint.h>
 #include <string>
@@ -43,11 +45,6 @@
 #else
 #  define IMAGEDS_PUBLIC
 #endif
-
-// Forward Declarations
-class ImageDSArray;
-class ImageDSAttribute;
-class ImageDSDimension;
 
 typedef enum imageds_attr_type_t {
   UCHAR=4,  // TILEDB_CHAR
@@ -69,27 +66,6 @@ typedef enum imageds_compression_t {
   BLOSC_ZSTD=9,   // TILEDB_BLOSC_ZSTD
   BLOSC_RLE=10,   // TILEDB_RLE
 } compression_t;
-
-class IMAGEDS_PUBLIC ImageDS {
- public:
-  ImageDS(const std::string& workspace, const bool overwrite=false, const bool disable_file_locking=false);
-
-  ~ImageDS();
-
-  int array_info(const std::string& array_path, ImageDSArray& array);
-
-  int to_array(ImageDSArray& array, const std::vector<std::vector<char>>& buffers);
-
-  int from_array(ImageDSArray& array, std::vector<std::vector<char>>& buffers);
-
- private:
-  int create_tiledb_groups(const std::string& array_path);
-  int setup_tiledb_schema(ImageDSArray& array);
-
-  std::string m_workspace;
-  std::string m_working_dir;
-  void* m_tiledb_ctx;
-};
 
 static std::string remove_trailing_slash(const std::string& path) {
   if (path[path.size()-1] == '/') {
@@ -118,10 +94,66 @@ static bool is_absolute_path(const std::string& path) {
   return path[0] == '/';
 }
 
-static std::string get_current_working_dir() {
-  char buffer[PATH_MAX];
-  return getcwd(buffer, PATH_MAX);
-}
+class IMAGEDS_PUBLIC ImageDSDimension {
+ public:
+  const std::string m_name;
+  uint64_t m_start;
+  uint64_t m_end;
+  uint64_t m_tile_extent;
+
+  ImageDSDimension(const std::string& name, uint64_t start, uint64_t end, uint64_t tile_extent)
+      : m_name(name), m_start(start), m_end(end), m_tile_extent(tile_extent) {
+    VERIFY(!name.empty() && "Dimension name specified cannot be empty");
+    VERIFY((start != end) && "Invalid specified start/end for dimension");
+    VERIFY((tile_extent != 0) && "Invalid specified tile extent for dimension, cannot be zero");
+    VERIFY((tile_extent < (end-start)) && "Invalid specified tile extent for dimension, cannot exceed dimension length");
+  }
+
+  const std::string name() {
+    return m_name;
+  }
+
+  uint64_t start() {
+    return m_start;
+  }
+
+  uint64_t end() {
+    return m_end;
+  }
+
+  uint64_t tile_extent() {
+    return m_tile_extent;
+  }
+};
+
+class IMAGEDS_PUBLIC ImageDSAttribute {
+ public:
+  const std::string& m_name;
+  attr_type_t m_type;
+  compression_t m_compression;
+  int m_compression_level;
+
+  ImageDSAttribute(const std::string& name, attr_type_t type, compression_t compression=NONE, int compression_level=0)
+      : m_name(name), m_type(type), m_compression(compression), m_compression_level(compression_level) {
+    VERIFY(!name.empty() && "Attribute name specified cannot be empty");
+  }
+
+  const std::string name() {
+    return m_name;
+  }
+
+  attr_type_t type() {
+    return m_type;
+  }
+
+  compression_t compression() {
+    return m_compression;
+  }
+
+  int compression_level() {
+    return m_compression_level;
+  }
+};
 
 class IMAGEDS_PUBLIC ImageDSArray {
  public:
@@ -155,68 +187,63 @@ class IMAGEDS_PUBLIC ImageDSArray {
   std::vector<ImageDSAttribute> attributes() {
     return m_attributes;
   }
+
+  void add_dimension(const std::string& name, uint64_t start, uint64_t end, uint64_t tile_extent) {
+    ImageDSDimension dimension(name, start, end, tile_extent);
+    m_dimensions.push_back(dimension);
+  }
+
+  void add_attribute(const std::string& name, attr_type_t type, compression_t compression=NONE, int compression_level=0) {
+    ImageDSAttribute attribute(name, type, compression, compression_level);
+    m_attributes.push_back(attribute);
+  }
 };
 
-class IMAGEDS_PUBLIC ImageDSAttribute {
+class IMAGEDS_PUBLIC ImageDSBuffers {
  public:
-  const std::string& m_name;
-  attr_type_t m_type;
-  compression_t m_compression;
-  int m_compression_level;
+  std::vector<std::vector<uint8_t>> m_buf;
+  std::vector<void *> m_buffers;
+  std::vector<size_t> m_buffer_sizes;
 
-  ImageDSAttribute(const std::string& name, attr_type_t type, compression_t compression=NONE, int compression_level=0)
-      : m_name(name), m_type(type), m_compression(compression), m_compression_level(compression_level) {
-    VERIFY(!name.empty() && "Attribute name specified cannot be empty");
+  void add(std::vector<uint8_t> buffer, size_t buffer_size) {
+    m_buf.push_back(std::move(buffer));
+    m_buffer_sizes.push_back(buffer_size);
   }
 
-  const std::string name() {
-    return m_name;
+  std::vector<void *> get() {
+    std::vector<void *> buffers;
+    for (auto i=0ul; i<m_buf.size(); i++) {
+      buffers.push_back(m_buf[i].data());
+    }
+    return buffers;
   }
 
-  attr_type_t type() {
-    return m_type;
-  }
-
-  compression_t compression() {
-    return m_compression;
-  }
-
-  int compression_level() {
-    return m_compression_level;
+  std::vector<size_t> get_sizes() {
+    return m_buffer_sizes;
   }
 };
 
-class IMAGEDS_PUBLIC ImageDSDimension {
+class IMAGEDS_PUBLIC ImageDS {
  public:
-  const std::string m_name;
-  uint64_t m_start;
-  uint64_t m_end;
-  uint64_t m_tile_extent;
+  ImageDS(const std::string& workspace, const bool overwrite=false, const bool disable_file_locking=false);
 
-  ImageDSDimension(const std::string& name, uint64_t start, uint64_t end, uint64_t tile_extent)
-      : m_name(name), m_start(start), m_end(end), m_tile_extent(tile_extent) {
-    VERIFY(!name.empty() && "Dimension name specified cannot be empty");
-    VERIFY((start != end) && "Invalid specified start/end for dimension");
-    VERIFY((tile_extent != 0) && "Invalid specified tile extent for dimension, cannot be zero");
-    VERIFY((tile_extent < (end-start)) && "Invalid specified tile extent for dimension, cannot exceed dimension length");
-  }
+  ~ImageDS();
 
-  const std::string name() {
-    return m_name;
-  }
-  
-  uint64_t start() {
-    return m_start;
-  }
+  int array_info(const std::string& array_path, ImageDSArray& array);
 
-  uint64_t end() {
-    return m_end;
-  }
+  int to_array(ImageDSArray& array, const std::vector<void *> buffers, const std::vector<size_t> buffer_sizes);
 
-  uint64_t tile_extent() {
-    return m_tile_extent;
-  }
+  ImageDSBuffers create_read_buffers(ImageDSArray& array);
+
+  int from_array(ImageDSArray& array, std::vector<void *> buffers, std::vector<size_t> buffer_sizes);
+
+ private:
+  int create_tiledb_groups(const std::string& array_path);
+  int setup_tiledb_schema(ImageDSArray& array);
+
+  std::string m_workspace;
+  std::string m_working_dir;
+  void* m_tiledb_ctx;
 };
-
 
 #endif //__IMAGEDS_H__

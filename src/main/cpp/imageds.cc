@@ -28,19 +28,15 @@
  * @section DESCRIPTION ImageDS C++ Implementation
  */
 
-#include "error.h"
 #include "imageds.h"
+
 #include "tiledb.h"
 #include "tiledb_constants.h"
 #include "tiledb_storage.h"
 #include "tiledb_utils.h"
 
-#include <assert.h>
-#include <errno.h>
 #include <iostream>
 #include <sstream>
-#include <stdexcept>
-#include <string.h>
 
 #define TILEDB_CTX reinterpret_cast<TileDB_CTX*>(m_tiledb_ctx)
 
@@ -105,8 +101,8 @@ int ImageDS::array_info(const std::string& array_path, ImageDSArray& array) {
   return IMAGEDS_OK;
 }
 
-int ImageDS::to_array(ImageDSArray& array, const std::vector<std::vector<char>>& buffers) {
-  RETURN_EIO_IF_ERROR(set_working_dir(TILEDB_CTX, m_workspace));
+int ImageDS::to_array(ImageDSArray& array, const std::vector<void *> buffers, const std::vector<size_t> buffer_sizes) {
+   RETURN_EIO_IF_ERROR(set_working_dir(TILEDB_CTX, m_workspace));
   
   if (is_array(TILEDB_CTX, array.m_path)) {
     // TODO: Validate existing schema
@@ -122,18 +118,10 @@ int ImageDS::to_array(ImageDSArray& array, const std::vector<std::vector<char>>&
                                            NULL, // Entire domain
                                            NULL, // All attributes
                                            0));
-  std::vector<const char *> buf;
-  std::vector<size_t> buf_size;
-  buf.resize(buffers.size());
-  buf_size.resize(buffers.size());
-  for (auto i=0u; i<buffers.size(); i++) {
-    buf[i] = buffers[i].data();
-    buf_size[i] = buffers[i].size()*sizeof(char);
-  }
 
-  RETURN_ECANCELED_IF_ERROR(tiledb_array_write(tiledb_array,
-                                               reinterpret_cast<const void**>(buf.data()),
-                                               buf_size.data()));
+  RETURN_EINVAL_IF_ERROR(tiledb_array_write(tiledb_array,
+                                            const_cast<const void **>(buffers.data()),
+                                            buffer_sizes.data()));
 
   //TODO: Check for overflow
 
@@ -147,78 +135,100 @@ int ImageDS::to_array(ImageDSArray& array, const std::vector<std::vector<char>>&
   return IMAGEDS_OK;
 }
 
-int ImageDS::from_array(ImageDSArray& array, std::vector<std::vector<char>>& buffers) {
+size_t dimensions_length(std::vector<ImageDSDimension> dimensions) {
+  size_t size = 1;
+  for (auto i=0ul; i<dimensions.size(); i++) {
+    if (dimensions[i].m_end > dimensions[i].m_start) {
+      size *= (dimensions[i].m_end-dimensions[i].m_start);
+    } else {
+      size *= (dimensions[i].m_start-dimensions[i].m_end);
+    }
+  }
+  return size;
+}
+
+ImageDSBuffers ImageDS::create_read_buffers(ImageDSArray& array) {
+  size_t required_length = 1;
+  if (array.m_dimensions.size() == 0) {
+    ImageDSArray array_from_schema;
+    if (array_info(array.m_path, array_from_schema)) {
+      throw std::runtime_error(std::string("Could not get array info from schema for ") + array.m_path);
+    }
+    required_length = dimensions_length(array_from_schema.m_dimensions);
+  } else {
+    required_length = dimensions_length(array.m_dimensions);
+  }
+
+  ImageDSBuffers imageds_buffers;
+  std::vector<std::vector<uint8_t>> buffers;
+  std::vector<size_t> buffer_sizes;
+  for (auto i=0ul; i<array.m_attributes.size(); i++) {
+    std::vector<uint8_t> buffer;
+    switch (array.m_attributes[i].m_type) {
+      case INT_8:
+        break;
+      case INT_32:
+        required_length *= sizeof(int);
+        break;
+      case INT_64:
+        required_length *= sizeof(long int);
+        break;
+      default:
+        throw std::runtime_error("Not yet implemented!");
+    }
+    buffer.resize(required_length);
+    imageds_buffers.add(buffer, required_length);
+  }
+
+  return imageds_buffers;
+}
+
+int ImageDS::from_array(ImageDSArray& array, std::vector<void *> buffers, std::vector<size_t> buffer_size) {
   RETURN_EIO_IF_ERROR(set_working_dir(TILEDB_CTX, m_workspace));
+
+  std::vector<char *> attributes;
+  for (auto i=0ul; i<array.m_attributes.size(); i++) {
+    attributes.push_back(const_cast<char *>(array.m_attributes[i].m_name.c_str()));
+  }
+
+  const char **tiledb_attributes;
+  int attribute_num;
+  if (attributes.empty()) {
+    tiledb_attributes = NULL; // All attributes
+    attribute_num = 0;
+  } else {
+    tiledb_attributes = const_cast<const char**>(attributes.data());
+    attribute_num = attributes.size();
+  }
   
   TileDB_Array* tiledb_array;
- 
-  size_t size = 0;
   size_t dimensions_length = array.m_dimensions.size();
   if (dimensions_length > 0) {
-    size = 1;
     uint64_t subarray[dimensions_length*2];
     for (auto i=0ul; i<dimensions_length; i++) {
       subarray[i*2] = array.m_dimensions[i].m_start;
       subarray[i*2+1] = array.m_dimensions[i].m_end;
-      size *= (array.m_dimensions[i].m_end - array.m_dimensions[i].m_start + 1);
     }
     RETURN_EINVAL_IF_ERROR(tiledb_array_init(TILEDB_CTX, &tiledb_array,
                                              array.m_path.c_str(),
                                              TILEDB_ARRAY_READ_SORTED_ROW,
                                              subarray, 
-                                             NULL, // All attributes
-                                             0));
+                                             tiledb_attributes,
+                                             attribute_num));
   } else {
     RETURN_EINVAL_IF_ERROR(tiledb_array_init(TILEDB_CTX, &tiledb_array,
                                              array.m_path.c_str(),
                                              TILEDB_ARRAY_READ_SORTED_ROW,
-                                             NULL, 
-                                             NULL, // All attributes
-                                             0));
+                                             NULL, // Entire Domain
+                                             tiledb_attributes,
+                                             attribute_num));
   }
   
-  TileDB_ArraySchema schema;
-  tiledb_array_get_schema(tiledb_array, &schema);
-
-  if (!size) {
-    size = 1;
-    uint64_t* domain = (uint64_t*) schema.domain_;
-    for (int i=0; i<schema.dim_num_; i++) {
-      uint64_t start = reinterpret_cast<uint64_t>(*domain);
-      domain++;
-      uint64_t end = reinterpret_cast<uint64_t>(*domain);
-      domain++;
-      size *= ((end-start)+1);
-    }
-  }
-
-  std::vector<char*> buf;
-  std::vector<size_t> buf_size;
-  buf.resize(buffers.size());
-  buf_size.resize(buffers.size());
-  for (int i=0; i<schema.attribute_num_; i++) {
-    buf[i] = buffers[i].data();
-    buf_size[i] = buffers[i].size()*sizeof(char);
-    /*    switch (array.m_attributes[i].m_type) {
-      buf[i] = buffers[i].data();
-      case UCHAR:
-        buf_size[i].size()*sizeof(char)
-	break;
-      case INT_32:
-        buf_size[i].size()*sizeof(char)
-        break;
-      default:
-        throw std::runtime_error("Not yet implemented!");
-        } */
-  }
-
   RETURN_ECANCELED_IF_ERROR(tiledb_array_read(tiledb_array,
-                                              reinterpret_cast<void**>(buf.data()),
-                                              buf_size.data()));
+                                              buffers.data(),
+                                              buffer_size.data()));
   
-  // RETURN_ECANCELED_IF_ERROR(tiledb_array_free_schema(&schema));
-
-  for (int i=0; i<schema.attribute_num_; i++) {
+  for (auto i=0ul; i<array.m_attributes.size(); i++) {
     if (tiledb_array_overflow(tiledb_array, i) == 1) {
       throw std::runtime_error("Buffer overflow encountered");
     }

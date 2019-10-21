@@ -57,6 +57,10 @@ class TempDir {
   const std::string& get_temp_dir() {
     return tmp_dirname_;
   }
+
+  void make_temp_cwd() {
+    chdir(get_temp_dir().c_str());
+  }
   
  private:
   std::string tmp_dirname_;
@@ -73,6 +77,7 @@ class TempDir {
 };
 
 TEST_CASE_METHOD(TempDir, "Test constructor", "[test_constr]") {
+  // Check with absolute paths
   std::string workspace = append_paths(get_temp_dir(), WORKSPACE);
   
   // with default overwrite=false
@@ -96,6 +101,11 @@ TEST_CASE_METHOD(TempDir, "Test constructor", "[test_constr]") {
   ImageDS imageds2(workspace, true);
   // re-created workspace should not contain random file
   CHECK(!is_file(workspace+"/test_file"));
+
+  // Check relative paths
+  make_temp_cwd();
+  ImageDS imageds3(WORKSPACE+".another");
+  CHECK(workspace_exists(WORKSPACE+".another"));
 
   delete_dir(workspace);
 }
@@ -198,7 +208,7 @@ TEST_CASE("Test ImageDSArray", "[ImageDSArray]") {
    try {
     ImageDSArray err("err", dimensions, {});
     FAIL();
-  } catch (const ImageDSException& e) {
+   } catch (const ImageDSException& e) {
     // Expected exception
    }
 }
@@ -229,163 +239,37 @@ TEST_CASE_METHOD(TempDir, "Test to and from array", "[to_from_array]") {
   ImageDSArray array(ARRAY, dimensions, attributes);
 
   std::vector<char> buffer = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-  std::vector<std::vector<char>> buffers;
-  buffers.push_back(buffer);
+  //std::vector<std::vector<char>> buffers;
+  //buffers.push_back(buffer);
 
-  CHECK(!imageds.to_array(array, buffers));
+  //  CHECK(!imageds.to_array(array, buffers));
+  std::vector<void *>buf;
+  buf.push_back(buffer.data());
+  std::vector<size_t>buf_size;
+  buf_size.push_back(8);
+  CHECK(!imageds.to_array(array, buf, buf_size));
 
   ImageDSArray array_info;
   CHECK(!imageds.array_info(ARRAY, array_info));
   //TODO: check array_info
 
   std::vector<char> from_array_buffer = {'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z'};
-  from_array_buffer.resize(8);
-  buffers.clear();
-  buffers.push_back(from_array_buffer);
-
-  CHECK(!imageds.from_array(array, buffers));
-  CHECK(buffers.size() == 1);
-  CHECK(buffers[0].size() == 8);
-  CHECK(buffers[0][0] == 'A');
-  CHECK(buffers[0][7] == 'H');
-}
-
-/*class ImageDSTestFixture {
- public:
-  void *handle;
-  compression_t compression = NONE;
-
-  bool is_dir(const std::string& dir) {
-    struct stat st;
-    memset(&st, 0, sizeof(struct stat));
-    return !stat(dir.c_str(), &st) && S_ISDIR(st.st_mode);
-  }
-  
-  bool is_file(const std::string& file) {
-    struct stat st;
-    memset(&st, 0, sizeof(struct stat));
-    return !stat(file.c_str(), &st) && S_ISREG(st.st_mode);
+  buf.clear();
+  buf.push_back(from_array_buffer.data());
+  CHECK(!imageds.from_array(array, buf, buf_size));
+  CHECK(buf_size[0] == 8);
+  for (auto i=0ul; i<from_array_buffer.size(); i++) {
+    CHECK(from_array_buffer[i] == 'A' + i);
   }
 
-  ImageDSTestFixture() {
-    CHECK_RC(imageds_connect(WORKSPACE, &handle), IMAGEDS_OK);
-    CHECK(is_dir(WORKSPACE));
-    REQUIRE(handle != NULL);
+  ImageDSBuffers read_buffers = imageds.create_read_buffers(array);
+  CHECK(read_buffers.get().size() == 1);
+  CHECK(read_buffers.get_sizes().size() == 1);
+
+  CHECK(!imageds.from_array(array, read_buffers.get(), read_buffers.get_sizes()));
+  char *ptr = (char *)read_buffers.get()[0];
+  for (auto i=0ul; i<read_buffers.get_sizes()[0]; i++) {
+    CHECK(ptr[i] == 'A' + i);
   }
-  
-  ~ImageDSTestFixture() {
-    CHECK_RC(imageds_disconnect(handle), IMAGEDS_OK);
-    // Remove the temporary workspace
-    std::string command = "rm -rf ";
-    command.append(WORKSPACE);
-    int rc = system(command.c_str());
-    CHECK_RC(rc, 0);
-  }
-
-  void check_array_info(const char *full_array_path, imageds_region_t *expected_region, imageds_array_t *expected_array) {
-    imageds_region_t region;
-    imageds_array_t array;
-    CHECK_RC(imageds_array_info(full_array_path, &region, &array), IMAGEDS_OK);
-
-    // Region check
-    CHECK(region.num_dimensions == expected_region->num_dimensions);
-    for (auto i=0; i<region.num_dimensions; i++) {
-      CHECK(strcmp(region.dimension_name[i], expected_region->dimension_name[i]) == 0);
-      CHECK(region.start[i] == expected_region->start[i]);
-      CHECK(region.end[i] == expected_region->end[i]);
-    }
-
-    // Array check
-    CHECK(array.num_attributes == expected_array->num_attributes);
-    for (auto i=0; i<array.num_attributes; i++) {
-      CHECK(strcmp(array.attribute_names[i], expected_array->attribute_names[i]) == 0);
-      CHECK(array.attribute_types[i] == expected_array->attribute_types[i]);
-      CHECK(array.compression[i] == expected_array->compression[i]);
-    }
-  }
-
-  void test_load_read(const char *array_path) {
-    imageds_array_t array;
-    array.name = array_path;
-    array.num_attributes = 1;
-    const char *attr_names[] = {"attr1"};
-    array.attribute_names = attr_names;
-    attr_types_t attr_types[] = {UCHAR};
-    array.attribute_types = attr_types;
-    compression_t compress[] = {NONE};
-    array.compression = compress;
-    array.compression_level = NULL;
-    array.tile_extents = 100;
-
-    imageds_region_t region;
-    region.num_dimensions = 1;
-    const char *dim_names[] = {"dim1"};
-    region.dimension_name = dim_names;
-    uint64_t starts[] = {0};
-    uint64_t ends[] = {7};
-    region.start = starts;
-    region.end = ends;
-
-    char buf_values[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
-    imageds_buffer_t buffer;
-    buffer.buffer = reinterpret_cast<void *>(buf_values);
-    buffer.size = 8;
-  
-    CHECK_RC(imageds_load_array(ImageDSTestFixture::handle, &region, &array, buffer), IMAGEDS_OK);
-    std::string path(WORKSPACE);
-    
-    std::string full_array_path = path.append("/").append(array_path);
-    REQUIRE(is_dir(full_array_path));
-
-    check_array_info(full_array_path.c_str(), &region, &array);;
-
-    void **ret_buffer;
-    size_t ret_region_size;
-    uint64_t ret_region_size_x;
-    CHECK_RC(imageds_read_array(ImageDSTestFixture::handle, &region, &array, &ret_buffer, &ret_region_size, &ret_region_size_x), IMAGEDS_OK);
-
-    CHECK(ret_region_size == 8);
-    REQUIRE(ret_buffer != NULL);
-    char **ret_buf = reinterpret_cast<char **>(ret_buffer);
-    for (auto i=0; i<8; i++) {
-      CHECK((ret_buf[0][i]-'0')==i); 
-    }
-
-    CHECK_RC(imageds_free_array_buffer(ret_buffer), IMAGEDS_OK);
-  }
-};
-
-void test_connect_with_null() {
-  CHECK(imageds_connect(NULL, NULL));
-  CHECK(imageds_connect(NULL,  NULL));
-  CHECK(imageds_connect("x", NULL)); 
-  CHECK(imageds_disconnect(NULL));
 }
 
-TEST_CASE_METHOD(ImageDSTestFixture, "Test constructor/destructor", "[test_constructor_destructor]") {
-  REQUIRE(ImageDSTestFixture::handle != NULL);
-}
-
-TEST_CASE_METHOD(ImageDSTestFixture, "Test load/read", "[test_load_read]") {
-  REQUIRE(ImageDSTestFixture::handle != NULL);
-  ImageDSTestFixture::test_load_read(ARRAY);
-}
-
-TEST_CASE_METHOD(ImageDSTestFixture, "Test load/read with array in subdir", "[test_load_read_array_in_subdir]") {
-  REQUIRE(ImageDSTestFixture::handle != NULL);
-  ImageDSTestFixture::test_load_read(ARRAY_IN_SUBDIR);
-}
-
-TEST_CASE_METHOD(ImageDSTestFixture, "Test load with absolute array path", "[test_load_with_abspath_array]") {
-  REQUIRE(ImageDSTestFixture::handle != NULL);
-  imageds_array_t array;
-  array.name = ABSOLUTE_ARRAY_PATH;
-  CHECK_RC(imageds_load_array(ImageDSTestFixture::handle, NULL, &array), IMAGEDS_ERR);
-}
-
-TEST_CASE_METHOD(ImageDSTestFixture, "Test load/read with gzip", "[test_load_read_gzip]") {
-  Require(ImageDSTestFixture::handle != NULL);
-  ImageDSTestFixture::compression = GZIP;
-  ImageDSTestFixture::test_load_read(ARRAY);
-}
-*/
