@@ -128,7 +128,7 @@ class IMAGEDS_PUBLIC ImageDSDimension {
 
 class IMAGEDS_PUBLIC ImageDSAttribute {
  public:
-  const std::string& m_name;
+  const std::string m_name;
   attr_type_t m_type;
   compression_t m_compression;
   int m_compression_level;
