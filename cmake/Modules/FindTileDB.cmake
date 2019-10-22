@@ -11,56 +11,28 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-#
-# Determine compiler flags for TileDB
-# Once done this will define
-# TILEDB_FOUND - TileDB found
 
-# Enable TILEDB_VERBOSE for error messages
-list(APPEND TILEDB_CMAKE_ARGS "-DTILEDB_VERBOSE:BOOL=True")
-
-#Support for compiling with MacOS Sierra and High Sierra
-if(DEFINED CMAKE_FIND_FRAMEWORK)
-  list(APPEND TILEDB_CMAKE_ARGS "-DCMAKE_FIND_FRAMEWORK:STRING=${CMAKE_FIND_FRAMEWORK}")
-endif()
+set(TILEDB_VERBOSE True)
+set(TILEDB_DISABLE_TESTING True)
 
 #Zlib
 find_package(ZLIB REQUIRED)
-if(ZLIB_ROOT)
-  list(APPEND TILEDB_CMAKE_ARGS "-DZLIB_ROOT:PATH=${ZLIB_ROOT}")
-endif()
 
 #OpenSSL
 if(OPENSSL_PREFIX_DIR AND NOT OPENSSL_ROOT_DIR)
     set(OPENSSL_ROOT_DIR "${OPENSSL_PREFIX_DIR}")
 endif()
-if(OPENSSL_ROOT_DIR)
-    list(APPEND TILEDB_CMAKE_ARGS "-DOPENSSL_ROOT_DIR:PATH=${OPENSSL_ROOT_DIR}")
-endif()
 if(BUILD_DISTRIBUTABLE_LIBRARY)
     set(OPENSSL_USE_STATIC_LIBS True)
-    list(APPEND TILEDB_CMAKE_ARGS "-DOPENSSL_USE_STATIC_LIBS:BOOL=True")
 endif()
 find_package(OpenSSL REQUIRED) #now performed inside TileDB
 
 #libuuid
-if(LIBUUID_DIR)
-    list(APPEND TILEDB_CMAKE_ARGS "-DLIBUUID_DIR:PATH=${LIBUUID_DIR}")
-endif()
 find_package(libuuid REQUIRED)
 
 include(FindPackageHandleStandardArgs)
+
+set(TILEDB_DISABLE_TESTS True CACHE BOOL "Disable TileDB Testing")
 
 #Build if TileDB source directory specified
 if(TILEDB_SOURCE_DIR)

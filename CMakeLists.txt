@@ -113,5 +113,5 @@ set(IMAGEDS_DEPENDENCIES
 )
 
 # Build ImageDS 
+enable_testing()
 add_subdirectory(src)
-
