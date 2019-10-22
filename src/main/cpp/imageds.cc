@@ -37,6 +37,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 #define TILEDB_CTX reinterpret_cast<TileDB_CTX*>(m_tiledb_ctx)
 
