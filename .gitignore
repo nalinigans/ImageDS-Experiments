@@ -132,7 +132,3 @@ ENV/
 # mypy
 .mypy_cache/
 
-# Temporarily
-python/
-python2/
-TAGS
