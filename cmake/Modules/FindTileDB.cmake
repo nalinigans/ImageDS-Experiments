@@ -32,7 +32,8 @@ find_package(libuuid REQUIRED)
 
 include(FindPackageHandleStandardArgs)
 
-set(TILEDB_DISABLE_TESTS True CACHE BOOL "Disable TileDB Testing")
+set(TILEDB_DISABLE_TESTS True CACHE BOOL "Disable TileDB Testing" FORCE)
+set(TILEDB_DISABLE_UNINSTALL True CACHE BOOL "Disable TileDB Uninstall" FORCE)
 
 #Build if TileDB source directory specified
 if(TILEDB_SOURCE_DIR)

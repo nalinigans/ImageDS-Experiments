@@ -46,6 +46,8 @@
 #  define IMAGEDS_PUBLIC
 #endif
 
+IMAGEDS_PUBLIC std::string imageds_version();
+
 typedef enum imageds_attr_type_t {
   UCHAR=4,  // TILEDB_CHAR
   INT_8=4,  // TILEDB_CHAR

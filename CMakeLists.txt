@@ -43,6 +43,10 @@ if(NOT(submodule_update_exit_code EQUAL 0))
 endif()
 
 # Build Options
+set(MAJOR 0)
+set(MINOR 1)
+set(PATCH 1)
+set(IMAGEDS_VERSION "${MAJOR}.${MINOR}.${PATCH}-${GIT_COMMIT_HASH}" CACHE STRING "ImageDS full version string")
 set(IMAGEDS_VERBOSE True CACHE BOOL "Prints errors with verbosity")
 set(IMAGEDS_TRACE False CACHE BOOL "Trace functionality, only available in Debug mode")
 if(NOT CMAKE_BUILD_TYPE)
@@ -80,6 +84,7 @@ if(IMAGEDS_TRACE)
      message(STATUS "ImageDS in release mode cannot have trace. CMAKE_BUILD_TYPE=" ${CMAKE_BUILD_TYPE})
   endif()
 endif()
+add_definitions(-DIMAGEDS_VERSION=\"${IMAGEDS_VERSION}\")
 
 # External packages required by TileDB
 find_package(ZLIB REQUIRED)
@@ -115,3 +120,11 @@ set(IMAGEDS_DEPENDENCIES
 # Build ImageDS 
 enable_testing()
 add_subdirectory(src)
+
+#Uninstall ImageDS
+add_custom_target(
+   uninstall
+   COMMAND echo "-- Uninstalling ImageDS from ${CMAKE_INSTALL_PREFIX}..."
+   COMMAND < install_manifest.txt xargs -I % sh -c 'echo -- Uninstalling % && rm -f %' %
+   COMMAND echo "-- ImageDS is uninstalled!"
+)

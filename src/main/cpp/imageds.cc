@@ -41,6 +41,10 @@
 
 #define TILEDB_CTX reinterpret_cast<TileDB_CTX*>(m_tiledb_ctx)
 
+std::string imageds_version() {
+  return IMAGEDS_VERSION;
+}
+
 ImageDS::ImageDS(const std::string& workspace, const bool overwrite, const bool disable_file_locking)
     : m_workspace(workspace) {
   TileDB_CTX* tiledb_ctx;
