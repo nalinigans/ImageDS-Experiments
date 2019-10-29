@@ -42,6 +42,12 @@ if(NOT(submodule_update_exit_code EQUAL 0))
   message(FATAL_ERROR "Failure to recursively update git submodules")
 endif()
 
+# Get git latest commit hash to use with ImageDS Version
+execute_process(COMMAND git log -1 --pretty=format:%h
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                OUTPUT_VARIABLE GIT_COMMIT_HASH
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+
 # Build Options
 set(MAJOR 0)
 set(MINOR 1)
