@@ -85,21 +85,21 @@ int ImageDS::array_info(const std::string& array_path, ImageDSArray& array) {
 
   array.m_name = array_schema.array_name_;
   for (auto i=0; i<array_schema.attribute_num_; i++) {
-    ImageDSAttribute attribute(array_schema.attributes_[i],
+    ImageDSAttribute *attribute = new ImageDSAttribute(array_schema.attributes_[i],
                                (attr_type_t)array_schema.types_[i],
                                (compression_t)array_schema.compression_[i],
                                array_schema.compression_level_[i]);
-    array.m_attributes.push_back(attribute);
+    array.m_attributes.push_back(std::unique_ptr<ImageDSAttribute>(attribute));
   }
   
   uint64_t *domain =  (uint64_t *)array_schema.domain_;
   int64_t *tile_extents = (int64_t *)array_schema.tile_extents_;
   for (auto i=0; i<array_schema.dim_num_; i++) {
-    ImageDSDimension dimension(array_schema.dimensions_[i],
+    ImageDSDimension *dimension = new ImageDSDimension(array_schema.dimensions_[i],
                                domain[i],
                                domain[i+1],
                                tile_extents[i]);
-    array.m_dimensions.push_back(dimension);
+    array.m_dimensions.push_back(std::unique_ptr<ImageDSDimension>(dimension));
   }
 
   RETURN_EIO_IF_ERROR(set_working_dir(TILEDB_CTX, m_working_dir));
@@ -124,6 +124,8 @@ int ImageDS::to_array(ImageDSArray& array, const std::vector<void *> buffers, co
                                            NULL, // All attributes
                                            0));
 
+  // TODO Validate that buffers are complete as this is a dense array
+
   RETURN_EINVAL_IF_ERROR(tiledb_array_write(tiledb_array,
                                             const_cast<const void **>(buffers.data()),
                                             buffer_sizes.data()));
@@ -140,13 +142,13 @@ int ImageDS::to_array(ImageDSArray& array, const std::vector<void *> buffers, co
   return IMAGEDS_OK;
 }
 
-size_t dimensions_length(std::vector<ImageDSDimension> dimensions) {
+size_t dimensions_length(const std::vector<std::unique_ptr<ImageDSDimension>>& dimensions) {
   size_t size = 1;
   for (auto i=0ul; i<dimensions.size(); i++) {
-    if (dimensions[i].m_end > dimensions[i].m_start) {
-      size *= (dimensions[i].m_end-dimensions[i].m_start);
+    if (dimensions[i]->m_end > dimensions[i]->m_start) {
+      size *= (dimensions[i]->m_end-dimensions[i]->m_start);
     } else {
-      size *= (dimensions[i].m_start-dimensions[i].m_end);
+      size *= (dimensions[i]->m_start-dimensions[i]->m_end);
     }
   }
   return size;
@@ -165,11 +167,10 @@ ImageDSBuffers ImageDS::create_read_buffers(ImageDSArray& array) {
   }
 
   ImageDSBuffers imageds_buffers;
-  std::vector<std::vector<uint8_t>> buffers;
+  std::vector<void *> buffers;
   std::vector<size_t> buffer_sizes;
   for (auto i=0ul; i<array.m_attributes.size(); i++) {
-    std::vector<uint8_t> buffer;
-    switch (array.m_attributes[i].m_type) {
+    switch (array.m_attributes[i]->m_type) {
       case INT_8:
         break;
       case INT_32:
@@ -181,7 +182,7 @@ ImageDSBuffers ImageDS::create_read_buffers(ImageDSArray& array) {
       default:
         throw std::runtime_error("Not yet implemented!");
     }
-    buffer.resize(required_length);
+    void *buffer = malloc(required_length);
     imageds_buffers.add(buffer, required_length);
   }
 
@@ -193,7 +194,7 @@ int ImageDS::from_array(ImageDSArray& array, std::vector<void *> buffers, std::v
 
   std::vector<char *> attributes;
   for (auto i=0ul; i<array.m_attributes.size(); i++) {
-    attributes.push_back(const_cast<char *>(array.m_attributes[i].m_name.c_str()));
+    attributes.push_back(const_cast<char *>(array.m_attributes[i]->m_name.c_str()));
   }
 
   const char **tiledb_attributes;
@@ -211,8 +212,8 @@ int ImageDS::from_array(ImageDSArray& array, std::vector<void *> buffers, std::v
   if (dimensions_length > 0) {
     uint64_t subarray[dimensions_length*2];
     for (auto i=0ul; i<dimensions_length; i++) {
-      subarray[i*2] = array.m_dimensions[i].m_start;
-      subarray[i*2+1] = array.m_dimensions[i].m_end;
+      subarray[i*2] = array.m_dimensions[i]->m_start;
+      subarray[i*2+1] = array.m_dimensions[i]->m_end;
     }
     RETURN_EINVAL_IF_ERROR(tiledb_array_init(TILEDB_CTX, &tiledb_array,
                                              array.m_path.c_str(),
@@ -271,10 +272,10 @@ int ImageDS::setup_tiledb_schema(ImageDSArray& array) {
   uint64_t domain[length*2];
   int64_t tile_extents[length];
   for (int i=0; i<length; i++) {
-    dimensions[i] = array.m_dimensions[i].m_name.c_str();
-    domain[i*2] = array.m_dimensions[i].m_start;
-    domain[i*2+1] =  array.m_dimensions[i].m_end;
-    tile_extents[i] = array.m_dimensions[i].m_tile_extent;
+    dimensions[i] = array.m_dimensions[i]->m_name.c_str();
+    domain[i*2] = array.m_dimensions[i]->m_start;
+    domain[i*2+1] =  array.m_dimensions[i]->m_end;
+    tile_extents[i] = array.m_dimensions[i]->m_tile_extent;
   }
 
   length = array.m_attributes.size();
@@ -284,11 +285,11 @@ int ImageDS::setup_tiledb_schema(ImageDSArray& array) {
   int attribute_compression_level[length+1]; // +1 for coordinates
   int num_cells_per_attr[length];
   for (int i=0; i<length; i++) {
-    attribute_names[i] = array.m_attributes[i].m_name.c_str();
-    attribute_types[i] =  array.m_attributes[i].m_type;
+    attribute_names[i] = array.m_attributes[i]->m_name.c_str();
+    attribute_types[i] =  array.m_attributes[i]->m_type;
     num_cells_per_attr[i] = 1; // TODO change based on attribute type
-    attribute_compression[i] = array.m_attributes[i].m_compression;
-    attribute_compression_level[i] =  array.m_attributes[i].m_compression_level;
+    attribute_compression[i] = array.m_attributes[i]->m_compression;
+    attribute_compression_level[i] =  array.m_attributes[i]->m_compression_level;
   }
   // For co-ordinates
   attribute_types[length] = TILEDB_INT64;

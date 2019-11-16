@@ -172,45 +172,53 @@ TEST_CASE("Test ImageDSAttribute", "[ImageDSAttribute]") {
 }
 
 TEST_CASE("Test ImageDSArray", "[ImageDSArray]") {
-  std::vector<ImageDSDimension> dimensions;
-  std::vector<ImageDSAttribute> attributes;
-  ImageDSDimension dim("X", 0, INT_MAX, 256);
-  dimensions.push_back(dim);
-  ImageDSAttribute attr("Intensity", UCHAR);
-  attributes.push_back(attr);
-
-  ImageDSArray array(ARRAY, dimensions, attributes);
+  ImageDSArray array(ARRAY);
+  array.add_dimension("X", 0, INT_MAX, 256);
+  array.add_attribute("Intensity", UCHAR);
+                      
   CHECK(!array.name().compare(ARRAY));
   CHECK(!array.path().compare(ARRAY));
   CHECK(array.dimensions().size() > 0);
   CHECK(array.attributes().size() > 0);
 
-  ImageDSArray array1(ARRAY_IN_SUBDIR, dimensions, attributes);
+  ImageDSArray array1(ARRAY_IN_SUBDIR);
+  array1.add_dimension("X", 0, INT_MAX, 256);
+  array1.add_attribute("Intensity", UCHAR);
   CHECK(!array1.name().compare(ARRAY));
   CHECK(!array1.path().compare(ARRAY_IN_SUBDIR));
   CHECK(array1.dimensions().size() > 0);
   CHECK(array1.attributes().size() > 0);
 
   try {
-    ImageDSArray err("", {}, {});
+    ImageDSArray err("");
     FAIL();
   } catch (const ImageDSException& e) {
     // Expected exception
   }
 
-   try {
-    ImageDSArray err("err", {}, {});
+  std::vector<std::unique_ptr<ImageDSDimension>> dimensions;
+  std::vector<std::unique_ptr<ImageDSAttribute>> attributes;
+
+  try {
+    ImageDSArray err("err", dimensions, attributes);
     FAIL();
   } catch (const ImageDSException& e) {
     // Expected exception
   }
 
-   try {
-    ImageDSArray err("err", dimensions, {});
+  dimensions.push_back(std::unique_ptr<ImageDSDimension>(new ImageDSDimension("X", 0, INT_MAX, 256)));
+  try {
+    ImageDSArray err("err", dimensions, attributes);
     FAIL();
    } catch (const ImageDSException& e) {
     // Expected exception
    }
+
+  attributes.push_back(std::unique_ptr<ImageDSAttribute>(new ImageDSAttribute("Intensity", UCHAR)));
+  ImageDSArray new_array("new", dimensions, attributes);
+  CHECK(new_array.name() == "new");
+  CHECK(new_array.dimensions().size() == 1);
+  CHECK(new_array.attributes().size() == 1);
 }
 
 TEST_CASE_METHOD(TempDir, "Test array_info", "[non_existent_array_info]") {
@@ -230,12 +238,12 @@ TEST_CASE_METHOD(TempDir, "Test to and from array", "[to_from_array]") {
   
   ImageDS imageds(workspace);
 
-  std::vector<ImageDSDimension> dimensions;
-  std::vector<ImageDSAttribute> attributes;
-  ImageDSDimension dim("X", 0, 8, 2);
-  dimensions.push_back(dim);
-  ImageDSAttribute attr("Intensity", UCHAR);
-  attributes.push_back(attr);
+  std::vector<std::unique_ptr<ImageDSDimension>> dimensions;
+  std::vector<std::unique_ptr<ImageDSAttribute>> attributes;
+  ImageDSDimension *dim = new ImageDSDimension("X", 0, 8, 2);
+  dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
+  ImageDSAttribute *attr = new ImageDSAttribute("Intensity", UCHAR);
+  attributes.push_back(std::unique_ptr<ImageDSAttribute>(attr));
   ImageDSArray array(ARRAY, dimensions, attributes);
 
   std::vector<char> buffer = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};

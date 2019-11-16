@@ -111,6 +111,10 @@ class IMAGEDS_PUBLIC ImageDSDimension {
     VERIFY((tile_extent < (end-start)) && "Invalid specified tile extent for dimension, cannot exceed dimension length");
   }
 
+  // Delete copy constructor
+  ImageDSDimension(const ImageDSDimension& other) = delete;  
+  ImageDSDimension(ImageDSDimension& other) = delete;  
+
   const std::string name() {
     return m_name;
   }
@@ -140,6 +144,10 @@ class IMAGEDS_PUBLIC ImageDSAttribute {
     VERIFY(!name.empty() && "Attribute name specified cannot be empty");
   }
 
+  // Delete copy constructor
+  ImageDSAttribute(const ImageDSAttribute& other) = delete;
+  ImageDSAttribute(ImageDSAttribute& other) = delete;
+
   const std::string name() {
     return m_name;
   }
@@ -161,17 +169,24 @@ class IMAGEDS_PUBLIC ImageDSArray {
  public:
   std::string m_path;
   std::string m_name;
-  std::vector<ImageDSDimension> m_dimensions;
-  std::vector<ImageDSAttribute> m_attributes;
+  std::vector<std::unique_ptr<ImageDSDimension>> m_dimensions;
+  std::vector<std::unique_ptr<ImageDSAttribute>> m_attributes;
 
-  ImageDSArray() {};
+  ImageDSArray() {}
 
-  ImageDSArray(const std::string& path, std::vector<ImageDSDimension> dimensions, std::vector<ImageDSAttribute> attributes)
-      : m_path(path), m_dimensions(dimensions), m_attributes(attributes) {
+  ImageDSArray(const std::string& path) : m_path(path) {
+    VERIFY(!path.empty() && "Array Path specified cannot be empty");
+    m_name = pathname(path);
+  };
+
+  ImageDSArray(const std::string& path, std::vector<std::unique_ptr<ImageDSDimension>>& dimensions, std::vector<std::unique_ptr<ImageDSAttribute>>& attributes)
+      : m_path(path) {
     VERIFY(!path.empty() && "Array Path specified cannot be empty");
     VERIFY(dimensions.size()>0 && "Array Dimensions required to be specified");
     VERIFY(attributes.size()>0 && "Array Attributes required to be specified");
     m_name = pathname(path);
+    m_dimensions = std::move(dimensions);
+    m_attributes = std::move(attributes);
   }
 
   const std::string name() {
@@ -182,42 +197,35 @@ class IMAGEDS_PUBLIC ImageDSArray {
     return m_path;
   }
 
-  std::vector<ImageDSDimension> dimensions() {
+  const std::vector<std::unique_ptr<ImageDSDimension>>& dimensions() {
     return m_dimensions;
   }
 
-  std::vector<ImageDSAttribute> attributes() {
+  const std::vector<std::unique_ptr<ImageDSAttribute>>& attributes() {
     return m_attributes;
   }
 
   void add_dimension(const std::string& name, uint64_t start, uint64_t end, uint64_t tile_extent) {
-    ImageDSDimension dimension(name, start, end, tile_extent);
-    m_dimensions.push_back(dimension);
+    m_dimensions.push_back(std::unique_ptr<ImageDSDimension>(new ImageDSDimension(name, start, end, tile_extent)));
   }
 
   void add_attribute(const std::string& name, attr_type_t type, compression_t compression=NONE, int compression_level=0) {
-    ImageDSAttribute attribute(name, type, compression, compression_level);
-    m_attributes.push_back(attribute);
+    m_attributes.push_back(std::unique_ptr<ImageDSAttribute>(new ImageDSAttribute(name, type, compression, compression_level)));
   }
 };
 
 class IMAGEDS_PUBLIC ImageDSBuffers {
  public:
-  std::vector<std::vector<uint8_t>> m_buf;
   std::vector<void *> m_buffers;
   std::vector<size_t> m_buffer_sizes;
 
-  void add(std::vector<uint8_t> buffer, size_t buffer_size) {
-    m_buf.push_back(std::move(buffer));
+  void add(void *buffer, size_t buffer_size) {
+    m_buffers.push_back(buffer);
     m_buffer_sizes.push_back(buffer_size);
   }
 
   std::vector<void *> get() {
-    std::vector<void *> buffers;
-    for (auto i=0ul; i<m_buf.size(); i++) {
-      buffers.push_back(m_buf[i].data());
-    }
-    return buffers;
+    return m_buffers;
   }
 
   std::vector<size_t> get_sizes() {
