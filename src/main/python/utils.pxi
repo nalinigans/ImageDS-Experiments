@@ -28,7 +28,7 @@ cdef unicode to_unicode(s):
         # Fast path for most common case(s).
         return <unicode>s
     elif isinstance(s, bytes):
-        return <unicode>str(s)
+        return s.decode('ascii')
     elif isinstance(s, unicode):
         # We know from the fast path above that 's' can only be a subtype here.
         # An evil cast to <unicode> might still work in some(!) cases,
@@ -40,4 +40,3 @@ cdef unicode to_unicode(s):
 
 cdef string as_string(s):
     return PyBytes_AS_STRING(to_unicode(s).encode('UTF-8'))
-

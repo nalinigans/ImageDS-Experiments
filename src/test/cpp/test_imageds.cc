@@ -240,7 +240,7 @@ TEST_CASE_METHOD(TempDir, "Test to and from array", "[to_from_array]") {
 
   std::vector<std::unique_ptr<ImageDSDimension>> dimensions;
   std::vector<std::unique_ptr<ImageDSAttribute>> attributes;
-  ImageDSDimension *dim = new ImageDSDimension("X", 0, 8, 2);
+  ImageDSDimension *dim = new ImageDSDimension("X", 0, 7, 2);
   dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
   ImageDSAttribute *attr = new ImageDSAttribute("Intensity", UCHAR);
   attributes.push_back(std::unique_ptr<ImageDSAttribute>(attr));
@@ -280,4 +280,76 @@ TEST_CASE_METHOD(TempDir, "Test to and from array", "[to_from_array]") {
     CHECK(ptr[i] == 'A' + i);
   }
 }
+
+TEST_CASE_METHOD(TempDir, "Test to and from array 2D", "[to_from_array_2D]") {
+  std::string workspace = append_paths(get_temp_dir(), WORKSPACE);
+  
+  ImageDS imageds(workspace);
+
+  std::vector<std::unique_ptr<ImageDSDimension>> dimensions;
+  std::vector<std::unique_ptr<ImageDSAttribute>> attributes;
+  ImageDSDimension *dim = new ImageDSDimension("X", 0, 3, 2);
+  dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
+  dim = new ImageDSDimension("Y", 0, 3, 2);
+  dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
+  ImageDSAttribute *attr = new ImageDSAttribute("Intensity", UCHAR);
+  attributes.push_back(std::unique_ptr<ImageDSAttribute>(attr));
+  ImageDSArray array(ARRAY, dimensions, attributes);
+
+  std::vector<char> buffer = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q'};
+  
+  std::vector<void *>buf;
+  buf.push_back(buffer.data());
+  std::vector<size_t>buf_size;
+  buf_size.push_back(16);
+  CHECK(!imageds.to_array(array, buf, buf_size));
+
+  ImageDSArray array_info;
+  CHECK(!imageds.array_info(ARRAY, array_info));
+  //TODO: check array_info
+
+  std::vector<char> from_array_buffer = {'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z'};
+  buf.clear();
+  buf.push_back(from_array_buffer.data());
+  CHECK(!imageds.from_array(array, buf, buf_size));
+  CHECK(buf_size[0] == 16);
+  for (auto i=0ul; i<from_array_buffer.size(); i++) {
+    CHECK(from_array_buffer[i] == 'A' + i);
+  }
+
+  ImageDSBuffers read_buffers = imageds.create_read_buffers(array);
+  CHECK(read_buffers.get().size() == 1);
+  CHECK(read_buffers.get_sizes().size() == 1);
+  CHECK(read_buffers.get_sizes()[0] == 16);
+
+  CHECK(!imageds.from_array(array, read_buffers.get(), read_buffers.get_sizes()));
+  char *ptr = (char *)read_buffers.get()[0];
+  for (auto i=0ul; i<read_buffers.get_sizes()[0]; i++) {
+    CHECK(ptr[i] == 'A' + i);
+  }
+
+  // TODO: Support subarray's better. This code is just for now
+  attributes.clear();
+  dimensions.clear();
+  dim = new ImageDSDimension("X", 0, 2, 1);
+  dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
+  dim = new ImageDSDimension("Y", 0, 2, 1);
+  dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
+  attr = new ImageDSAttribute("Intensity", UCHAR);
+  attributes.push_back(std::unique_ptr<ImageDSAttribute>(attr));
+  ImageDSArray subarray(ARRAY, dimensions, attributes);
+
+  char *bytes = new char[10];
+  bytes[9]=0;
+  buf.clear();
+  buf_size.clear();
+  buf.push_back(bytes);
+  buf_size.push_back(9);
+
+  CHECK(!imageds.from_array(subarray, buf, buf_size));
+
+  std::string expected("ABCEFGIJK");
+  CHECK(expected.compare(bytes) == 0);
+}
+
 

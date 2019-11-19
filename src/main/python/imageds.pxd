@@ -1,6 +1,7 @@
 # distutils: language = c++
 # cython: language_level=3
 
+from libcpp.memory cimport unique_ptr
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libc.stdint cimport (uint8_t, uint64_t)
@@ -43,6 +44,8 @@ cdef extern from "imageds.h":
     ImageDSArray()
     ImageDSArray(string) except +
     ImageDSArray(string, vector[ImageDSDimension], vector[ImageDSAttribute]) except +
+    vector[unique_ptr[ImageDSDimension]] dimensions()
+    vector[unique_ptr[ImageDSAttribute]] attributes()
     void add_dimension(string, uint64_t, uint64_t, uint64_t)
     void add_attribute(string, attr_type_t, compression_t, int)
     pass

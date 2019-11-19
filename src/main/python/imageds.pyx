@@ -4,6 +4,8 @@
 from __future__ import absolute_import, print_function
 from enum import IntEnum
 
+import numpy as np
+
 include "utils.pxi"
 
 class attr_type(IntEnum):
@@ -25,10 +27,23 @@ class compression_type(IntEnum):
     BLOSC_ZSTD=compression_t.ZSTD
     BLOSC_RLE=compression_t.BLOSC_RLE
 
+cdef attr_type_t to_attr_type(np.dtype dtype):
+    if dtype == np.int32:
+        return attr_type.INT32
+    elif dtype == np.int64:
+        return attr_type.INT64
+    #elif dtype == np.float32:
+    #    return TILEDB_FLOAT32
+    #elif dtype == np.float64:
+    #    return TILEDB_FLOAT64
+    elif dtype == np.int8:
+        return attr_type.INT8
+    raise TypeError("Unsupported data type '{0!r}'".format(dtype))
+
+
 def version():
     version_string = imageds_version()
     return version_string
-
 
 cdef class _ImageDS:
     cdef ImageDS* _imageds
@@ -46,27 +61,23 @@ cdef class _ImageDS:
         if self._imageds is NULL:
             raise MemoryError()
 
-    def __getitem__(self, _ImageDSArray imageds_array):
-        print("Nalini-getitem")
-
-    def __setitem__(self, _ImageDSArray imageds_array, buffers):
-        print("Nalini-setitem")
-       
     def array_info(self, path):
         cdef ImageDSArray array
         if self._imageds.array_info(as_string(path), array) != 0:
-            raise RuntimeError("Could not get array_info for"+path)
+            raise RuntimeError("Could not get array_info for "+path)
 
-    def to_image(self, _ImageDSArray array, buffers):
+    cdef to_image(self, _ImageDSArray array, vector[void *]buffers, vector[size_t] sizes):
+        return self._imageds.to_array(array.get()[0], buffers, sizes)
+
+    def from_image(self, _ImageDSArray, buffers):
         return 0
 
-    def from_image(self, path):
-        return 0
+cdef _ImageDS _imageds
+def setup(workspace):
+    global _imageds # necessary
+    _imageds = _ImageDS(workspace)
 
-def create(workspace):
-    return _ImageDS(workspace)
-        
-cdef class _ImageDSArray:
+cdef class _ImageDSArray(object):
     cdef ImageDSArray* _array
 
     def __cinit__(self):
@@ -74,6 +85,48 @@ cdef class _ImageDSArray:
 
     def __init__(self, path):
         self._array = new ImageDSArray(as_string(path))
+
+    def __setitem_per_attribute(self, key, value):
+        cdef vector[void *] buffers
+        cdef vector[size_t] buffer_sizes
+        i = 0
+        nbytes_per_dim = value.nbytes/value.ndim
+        cdef uint64_t data_ptr = <uint64_t>(np.PyArray_DATA(value))
+        cdef uint64_t incr = nbytes_per_dim
+        while i < value.ndim:
+            buffers.push_back(<void *>(data_ptr))
+            buffer_sizes.push_back(nbytes_per_dim)
+            data_ptr =  data_ptr + incr
+            i += 1
+        cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)
+        assert(rc == 0)
+
+    def __setitem__(self, key, value):
+        if not isinstance(key, slice):
+            raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
+        if not isinstance(value, np.ndarray):
+            raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
+        if (key.start != None or key.stop != None or key.step != None):
+            raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")
+        assert(value.ndim == self._array.dimensions().size())
+        assert(value.flags.c_contiguous)
+        self. __setitem_per_attribute(key, value)
+
+    def __getitem_per_attribute(self, start, stop):
+        pass
+
+    def __getitem__(self, object key):
+        if not isinstance(key, slice):
+            raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
+        if key.step == None:
+            raise RuntimeError("Step not yet supported")
+        print(key.start, key.stop, key.step)
+        
+        #for dimension in _array.dimensions():
+        pass
+
+    cdef ImageDSArray *get(self):
+        return self._array
 
     def add_dimension(self, name, start, end, tile_extent):
         self._array.add_dimension(name, start, end, tile_extent)
@@ -114,4 +167,4 @@ def define_array(name, dimensions, attributes):
                                     attribute._compression,
                                     attribute._compression_level)
     return imageds_array
- 
+

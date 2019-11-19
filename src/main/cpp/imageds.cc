@@ -146,9 +146,9 @@ size_t dimensions_length(const std::vector<std::unique_ptr<ImageDSDimension>>& d
   size_t size = 1;
   for (auto i=0ul; i<dimensions.size(); i++) {
     if (dimensions[i]->m_end > dimensions[i]->m_start) {
-      size *= (dimensions[i]->m_end-dimensions[i]->m_start);
+      size *= (dimensions[i]->m_end-dimensions[i]->m_start+1);
     } else {
-      size *= (dimensions[i]->m_start-dimensions[i]->m_end);
+      size *= (dimensions[i]->m_start-dimensions[i]->m_end+1);
     }
   }
   return size;
