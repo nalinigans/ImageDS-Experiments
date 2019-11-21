@@ -6,13 +6,11 @@ from enum import IntEnum
 
 import numpy as np
 
-include "utils.pxi"
+from libcpp.vector cimport vector
+from cython.operator cimport dereference as deref, preincrement as inc
+from cython.operator cimport dereference
 
-class attr_type(IntEnum):
-    UCHAR = attr_type_t.UCHAR
-    INT_8 = attr_type_t.INT_8
-    INT_32 = attr_type_t.INT_32
-    INT_64 = attr_type_t.INT_64
+include "utils.pxi"
 
 class compression_type(IntEnum):
     NONE=compression_t.NONE
@@ -29,17 +27,25 @@ class compression_type(IntEnum):
 
 cdef attr_type_t to_attr_type(np.dtype dtype):
     if dtype == np.int32:
-        return attr_type.INT32
+        return INT_32
     elif dtype == np.int64:
-        return attr_type.INT64
+        return INT_64
     #elif dtype == np.float32:
     #    return TILEDB_FLOAT32
     #elif dtype == np.float64:
     #    return TILEDB_FLOAT64
     elif dtype == np.int8:
-        return attr_type.INT8
+        return INT_8
     raise TypeError("Unsupported data type '{0!r}'".format(dtype))
 
+cdef np.dtype to_dtype(attr_type_t attr_type):
+    if attr_type == INT_8:
+        return np.dtype(np.int8)
+    elif attr_type == INT_32:
+        return np.dtype(np.int32)
+    elif attr_type == INT_64:
+        return np.int64
+    raise TypeError("Unsupported attribute data type {0}".format(attr_type))
 
 def version():
     version_string = imageds_version()
@@ -69,8 +75,8 @@ cdef class _ImageDS:
     cdef to_image(self, _ImageDSArray array, vector[void *]buffers, vector[size_t] sizes):
         return self._imageds.to_array(array.get()[0], buffers, sizes)
 
-    def from_image(self, _ImageDSArray, buffers):
-        return 0
+    cdef from_image(self, _ImageDSArray array, vector[void *]buffers, vector[size_t] sizes):
+        return self._imageds.from_array(array.get()[0], buffers, sizes)
 
 cdef _ImageDS _imageds
 def setup(workspace):
@@ -86,44 +92,53 @@ cdef class _ImageDSArray(object):
     def __init__(self, path):
         self._array = new ImageDSArray(as_string(path))
 
-    def __setitem_per_attribute(self, key, value):
-        cdef vector[void *] buffers
-        cdef vector[size_t] buffer_sizes
-        i = 0
-        nbytes_per_dim = value.nbytes/value.ndim
-        cdef uint64_t data_ptr = <uint64_t>(np.PyArray_DATA(value))
-        cdef uint64_t incr = nbytes_per_dim
-        while i < value.ndim:
-            buffers.push_back(<void *>(data_ptr))
-            buffer_sizes.push_back(nbytes_per_dim)
-            data_ptr =  data_ptr + incr
-            i += 1
-        cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)
-        assert(rc == 0)
-
     def __setitem__(self, key, value):
+        if self._array.attributes().size() != 1:
+            raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
         if not isinstance(key, slice):
             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
         if not isinstance(value, np.ndarray):
             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
-        if (key.start != None or key.stop != None or key.step != None):
+        if key.start != None or key.stop != None or key.step != None:
             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")
         assert(value.ndim == self._array.dimensions().size())
         assert(value.flags.c_contiguous)
-        self. __setitem_per_attribute(key, value)
+        cdef vector[void *] buffers
+        cdef vector[size_t] buffer_sizes
+        buffers.push_back(np.PyArray_DATA(value))
+        buffer_sizes.push_back(value.nbytes)
+        cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)
+        assert(rc == 0)
 
-    def __getitem_per_attribute(self, start, stop):
-        pass
+    def __array__(self, dtype=None):
+        a = self[...]
+        if dtype and a.dtype != dtype:
+            a = a.astype(dtype)
+        return a
+
+    def __repr__(self):
+        return self.__array__().__repr__()
 
     def __getitem__(self, object key):
+        if self._array.attributes().size() != 1:
+            raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
         if not isinstance(key, slice):
             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
-        if key.step == None:
-            raise RuntimeError("Step not yet supported")
-        print(key.start, key.stop, key.step)
-        
-        #for dimension in _array.dimensions():
-        pass
+        if key.start != None or key.stop != None or key.step != None:
+            raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")
+        nbytes = 0
+        dim_list = []
+        for i in range(self._array.dimensions().size()):
+            dim_list.append(deref(self._array.dimensions().data()[i]).end()
+                            -deref(self._array.dimensions().data()[i]).start() + 1)
+        np_array = np.empty(tuple(dim_list), dtype=to_dtype(deref(self._array.attributes().data()[0]).type()), order='C')
+        cdef vector[void *] buffers
+        cdef vector[size_t] buffer_sizes
+        buffers.push_back(np.PyArray_DATA(np_array))
+        buffer_sizes.push_back(np_array.nbytes)
+        cdef int rc = _imageds.from_image(self, buffers, buffer_sizes)
+        assert(rc == 0)
+        return np_array
 
     cdef ImageDSArray *get(self):
         return self._array
@@ -151,11 +166,15 @@ class Py_ImageDSAttribute:
         self._compression = compression
         self._compression_level = compression_level
 
-def cell_attribute(name, attr_type_t attr_type, compression_t compression=NONE, compression_level=0):
-    return Py_ImageDSAttribute(name, attr_type, compression, compression_level)
+def cell_attribute(name, np.dtype dtype, compression_t compression=NONE, compression_level=0):
+    return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
 
-def define_array(name, dimensions, attributes):
-    cdef imageds_array = _ImageDSArray(as_string(name))
+def define_array(path, dimensions, attributes):
+    cdef imageds_array = _ImageDSArray(as_string(path))
+    if len(dimensions) == 0:
+        raise RuntimeError("Specify at least one dimension while defining array")
+    if len(attributes) == 0:
+        raise RuntimeError("Specify at least one attribute while defining array")
     for dimension in dimensions:
         imageds_array.add_dimension(as_string(dimension._name),
                                     dimension._start,

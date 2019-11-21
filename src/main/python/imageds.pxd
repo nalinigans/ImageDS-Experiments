@@ -32,18 +32,28 @@ cdef extern from "imageds.h":
 
   cdef cppclass ImageDSDimension:
     ImageDSDimension(string, uint64_t, uint64_t, uint64_t) except +
+    string name()
+    uint64_t start()
+    uint64_t end()
+    uint64_t tile_extent()
     pass
 
   cdef cppclass ImageDSAttribute:
     ImageDSAttribute(string, attr_type_t, compression_t, int) except +
     ImageDSAttribute(string, attr_type_t, compression_t) except +
     ImageDSAttribute(string, attr_type_t) except +
+    string name()
+    attr_type_t type()
+    compression_t compression()
+    int compression_level()
     pass
 
   cdef cppclass ImageDSArray:
     ImageDSArray()
     ImageDSArray(string) except +
     ImageDSArray(string, vector[ImageDSDimension], vector[ImageDSAttribute]) except +
+    string name()
+    string path()
     vector[unique_ptr[ImageDSDimension]] dimensions()
     vector[unique_ptr[ImageDSAttribute]] attributes()
     void add_dimension(string, uint64_t, uint64_t, uint64_t)
@@ -53,6 +63,7 @@ cdef extern from "imageds.h":
   cdef cppclass ImageDSBuffers:
     void add(void*, size_t)
     vector[void*] get()
+    vector[size_t] get_sizes()
     pass
 
   cdef cppclass ImageDS:
@@ -62,5 +73,5 @@ cdef extern from "imageds.h":
     int array_info(string, ImageDSArray)
     int to_array(ImageDSArray, vector[void *], vector[size_t])
     ImageDSBuffers create_read_buffers(ImageDSArray)
-    from_array(ImageDSArray, vector[void *], vector[size_t])
+    int from_array(ImageDSArray, vector[void *], vector[size_t])
     pass
