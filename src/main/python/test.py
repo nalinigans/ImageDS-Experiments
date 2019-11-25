@@ -35,11 +35,11 @@ def run_test():
     print("Test 2D array")
     x_dim = imageds.array_dimension("X", 0, 3, 2)
     y_dim = imageds.array_dimension("Y", 0, 3, 2)
-    red = imageds.cell_attribute("Red", np.uint32, imageds.compression_type.NONE, 0)
+    red = imageds.cell_attribute("Red", np.uint16, imageds.compression_type.NONE, 0)
     arr = imageds.define_array("PET_2D", [x_dim, y_dim], [red])  
     # write 2D array with 1 attribute
     print("\tWrite 2D array")
-    data = np.array(([1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]), dtype=np.dtype(np.uint32))
+    data = np.array(([1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]), dtype=np.dtype(np.uint16))
     arr[:] = data
     # read 2D array with 1 attribute
     print("\tRead 2D array")
