@@ -170,18 +170,31 @@ ImageDSBuffers ImageDS::create_read_buffers(ImageDSArray& array) {
   std::vector<void *> buffers;
   std::vector<size_t> buffer_sizes;
   for (auto i=0ul; i<array.m_attributes.size(); i++) {
-    switch (array.m_attributes[i]->m_type) {
-      case INT_8:
-        break;
-      case INT_32:
-        required_length *= sizeof(int);
-        break;
-      case INT_64:
-        required_length *= sizeof(long int);
-        break;
-      default:
-        throw std::runtime_error("Not yet implemented!");
-    }
+    int attr_type = array.m_attributes[i]->m_type;
+    if(attr_type == TILEDB_CHAR)
+     required_length *= sizeof(char);
+    else if(attr_type == TILEDB_INT8)
+     required_length *= sizeof(int8_t);
+    else if(attr_type == TILEDB_INT16)
+     required_length *= sizeof(int16_t);
+    else if(attr_type == TILEDB_INT32)
+     required_length *= sizeof(int32_t);
+    else if(attr_type == TILEDB_INT64)
+     required_length *= sizeof(int64_t);
+    else if(attr_type == TILEDB_UINT8)
+     required_length *= sizeof(uint8_t);
+    else if(attr_type == TILEDB_UINT16)
+     required_length *= sizeof(uint16_t);
+    else if(attr_type == TILEDB_UINT32)
+     required_length *= sizeof(uint32_t);
+    else if(attr_type == TILEDB_UINT64)
+     required_length *= sizeof(uint64_t);
+    else if(attr_type == TILEDB_FLOAT32)
+     required_length *= sizeof(float);
+    else if(attr_type == TILEDB_FLOAT64)
+     required_length *= sizeof(double);
+    else
+      throw std::runtime_error("Not yet implemented!");
     void *buffer = malloc(required_length);
     imageds_buffers.add(buffer, required_length);
   }

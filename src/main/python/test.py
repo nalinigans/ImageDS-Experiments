@@ -18,29 +18,31 @@ def run_test():
         print("Running tests DONE")
 
     # 1D array
+    print("Test 1D array")
     x_dim = imageds.array_dimension("X", 0, 7, 2)
-    red = imageds.cell_attribute("Red", np.dtype(np.int32), imageds.compression_type.NONE, 0)
+    red = imageds.cell_attribute("Red", np.ubyte, imageds.compression_type.NONE, 0)
     arr = imageds.define_array("PET", [x_dim], [red])
-
     # write 1D array with 1 attribute
-    data = np.array([0, 1, 2, 3, 4, 5, 6, 7],  dtype=np.dtype(np.int32))
+    print("\tWrite 1D array")
+    data = np.array([0, 1, 2, 3, 4, 5, 6, 7],  dtype=np.dtype(np.ubyte))
     arr[:] = data
-
     # read 1D array with 1 attribute
+    print("\tRead 1D array")
     data = arr[:]
     print(data)
 
     # 2D array with 1 attribute
+    print("Test 2D array")
     x_dim = imageds.array_dimension("X", 0, 3, 2)
     y_dim = imageds.array_dimension("Y", 0, 3, 2)
-    red = imageds.cell_attribute("Red", np.dtype(np.int32), imageds.compression_type.NONE, 0)
-    arr = imageds.define_array("PET_2D", [x_dim, y_dim], [red])
-    
+    red = imageds.cell_attribute("Red", np.uint32, imageds.compression_type.NONE, 0)
+    arr = imageds.define_array("PET_2D", [x_dim, y_dim], [red])  
     # write 2D array with 1 attribute
-    data = np.array(([1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]), dtype=np.dtype(np.int32))
+    print("\tWrite 2D array")
+    data = np.array(([1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]), dtype=np.dtype(np.uint32))
     arr[:] = data
-
     # read 2D array with 1 attribute
+    print("\tRead 2D array")
     data = arr[:]
     print(data)
 

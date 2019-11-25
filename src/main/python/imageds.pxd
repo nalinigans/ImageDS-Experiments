@@ -12,10 +12,18 @@ cdef extern from "imageds.h":
   #constants
 
   ctypedef enum attr_type_t:
-    UCHAR=4,
-    INT_8=4,
-    INT_32=0,
-    INT_64=1
+    CHAR=4,
+    UCHAR=5,
+    INT8=5,
+    INT16=7,
+    INT32=0,
+    INT64=1,
+    UINT8=6,
+    UINT16=8,
+    UINT32=9,
+    UINT64=10,
+    FLOAT32=2,
+    FLOAT64=3
 
   ctypedef enum compression_t:
     NONE=0

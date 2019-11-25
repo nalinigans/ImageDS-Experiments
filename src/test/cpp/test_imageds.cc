@@ -158,14 +158,14 @@ TEST_CASE("Test ImageDSAttribute", "[ImageDSAttribute]") {
   CHECK(intensity_attr1.compression() == GZIP);
   CHECK(intensity_attr1.compression_level() == 0);
 
-  ImageDSAttribute intensity_attr2("Intensity2", INT_32, BLOSC_RLE, 3);
+  ImageDSAttribute intensity_attr2("Intensity2", INT32, BLOSC_RLE, 3);
   CHECK(!intensity_attr2.name().compare("Intensity2"));
-  CHECK(intensity_attr2.type() == INT_32);
+  CHECK(intensity_attr2.type() == INT32);
   CHECK(intensity_attr2.compression() == BLOSC_RLE);
   CHECK(intensity_attr2.compression_level() == 3);
 
   try {
-    ImageDSAttribute("", INT_8);
+    ImageDSAttribute("", INT8);
   } catch (const ImageDSException& e) {
     // Expected exception
   }
@@ -292,7 +292,7 @@ TEST_CASE_METHOD(TempDir, "Test to and from array 2D", "[to_from_array_2D]") {
   dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
   dim = new ImageDSDimension("Y", 0, 3, 2);
   dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
-  ImageDSAttribute *attr = new ImageDSAttribute("Intensity", UCHAR);
+  ImageDSAttribute *attr = new ImageDSAttribute("Intensity", CHAR);
   attributes.push_back(std::unique_ptr<ImageDSAttribute>(attr));
   ImageDSArray array(ARRAY, dimensions, attributes);
 
@@ -335,7 +335,7 @@ TEST_CASE_METHOD(TempDir, "Test to and from array 2D", "[to_from_array_2D]") {
   dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
   dim = new ImageDSDimension("Y", 0, 2, 1);
   dimensions.push_back(std::unique_ptr<ImageDSDimension>(dim));
-  attr = new ImageDSAttribute("Intensity", UCHAR);
+  attr = new ImageDSAttribute("Intensity", CHAR);
   attributes.push_back(std::unique_ptr<ImageDSAttribute>(attr));
   ImageDSArray subarray(ARRAY, dimensions, attributes);
 

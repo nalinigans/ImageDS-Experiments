@@ -25,26 +25,54 @@ class compression_type(IntEnum):
     BLOSC_ZSTD=compression_t.ZSTD
     BLOSC_RLE=compression_t.BLOSC_RLE
 
-cdef attr_type_t to_attr_type(np.dtype dtype):
-    if dtype == np.int32:
-        return INT_32
+cdef attr_type_t to_attr_type(dtype):
+    if dtype == np.char:
+        return CHAR
+    elif dtype == np.int8 or dtype == np.byte:
+        return INT8
+    elif dtype == np.int16:
+        return INT16
+    elif dtype == np.int32:
+        return INT32
     elif dtype == np.int64:
-        return INT_64
-    #elif dtype == np.float32:
-    #    return TILEDB_FLOAT32
-    #elif dtype == np.float64:
-    #    return TILEDB_FLOAT64
-    elif dtype == np.int8:
-        return INT_8
+        return INT64
+    elif dtype == np.uint8 or dtype == np.ubyte:
+        return UINT8
+    elif dtype == np.uint16:
+        return UINT16
+    elif dtype == np.uint32:
+        return UINT32
+    elif dtype == np.uint64:
+        return UINT64
+    elif dtype == np.float32:
+        return FLOAT32
+    elif dtype == np.float64:
+        return FLOAT64
     raise TypeError("Unsupported data type '{0!r}'".format(dtype))
 
 cdef np.dtype to_dtype(attr_type_t attr_type):
-    if attr_type == INT_8:
+    if attr_type == CHAR:
+        return np.dtype(np.char)
+    elif attr_type == INT8:
         return np.dtype(np.int8)
-    elif attr_type == INT_32:
+    elif attr_type == INT16:
+        return np.dtype(np.int16)
+    elif attr_type == INT32:
         return np.dtype(np.int32)
-    elif attr_type == INT_64:
-        return np.int64
+    elif attr_type == INT64:
+        return np.dtype(np.int64)
+    elif attr_type == UINT8:
+        return np.dtype(np.uint8)
+    elif attr_type == UINT16:
+        return np.dtype(np.uint16)
+    elif attr_type == UINT32:
+        return np.dtype(np.uint32)
+    elif attr_type == UINT8:
+        return np.dtype(np.uint8)
+    elif attr_type == FLOAT32:
+        return np.dtype(np.float32)
+    elif attr_type == FLOAT64:
+        return np.dtype(np.float64)
     raise TypeError("Unsupported attribute data type {0}".format(attr_type))
 
 def version():
@@ -166,7 +194,7 @@ class Py_ImageDSAttribute:
         self._compression = compression
         self._compression_level = compression_level
 
-def cell_attribute(name, np.dtype dtype, compression_t compression=NONE, compression_level=0):
+def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):
     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
 
 def define_array(path, dimensions, attributes):

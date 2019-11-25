@@ -49,10 +49,18 @@
 IMAGEDS_PUBLIC std::string imageds_version();
 
 typedef enum imageds_attr_type_t {
-  UCHAR=4,  // TILEDB_CHAR
-  INT_8=4,  // TILEDB_CHAR
-  INT_32=0, // TILEDB_INT32
-  INT_64=1  // TILEDB_INT64
+  CHAR=4,         // TILEDB_CHAR
+  UCHAR=5,        // TILEDB_INT8
+  INT8=5,         // TILEDB_INT8
+  INT16=7,        // TILDB_INT16
+  INT32=0,        // TILEDB_INT32
+  INT64=1,        // TILEDB_INT64
+  UINT8=6,        // TILEDB_UINT8
+  UINT16=8,       // TILDB_UINT16
+  UINT32=9,       // TILEDB_UINT32
+  UINT64=10,      // TILEDB_UINT64
+  FLOAT32=2,      // TILEDB_FLOAT32
+  FLOAT64=3       // TILEDB_FLOAT64
 } attr_type_t;
 
 typedef enum imageds_compression_t {
