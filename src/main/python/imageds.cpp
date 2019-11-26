@@ -1124,8 +1124,8 @@ struct __pyx_obj_7imageds__ImageDS {
 };
 
 
-/* "imageds.pyx":114
- *     _imageds = _ImageDS(workspace)
+/* "imageds.pyx":128
+ *         self._compression_level = compression_level
  * 
  * cdef class _ImageDSArray(object):             # <<<<<<<<<<<<<<
  *     cdef ImageDSArray* _array
@@ -1154,8 +1154,8 @@ struct __pyx_vtabstruct_7imageds__ImageDS {
 static struct __pyx_vtabstruct_7imageds__ImageDS *__pyx_vtabptr_7imageds__ImageDS;
 
 
-/* "imageds.pyx":114
- *     _imageds = _ImageDS(workspace)
+/* "imageds.pyx":128
+ *         self._compression_level = compression_level
  * 
  * cdef class _ImageDSArray(object):             # <<<<<<<<<<<<<<
  *     cdef ImageDSArray* _array
@@ -1404,6 +1404,15 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
 
+/* PyObjectSetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
+#else
+#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
+#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#endif
+
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
@@ -1458,15 +1467,6 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 }
 #else
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
-#endif
-
-/* PyObjectSetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
-#else
-#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
-#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
 #endif
 
 /* DictGetItem.proto */
@@ -1919,7 +1919,6 @@ static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_stri
 static CYTHON_INLINE PyObject *__pyx_convert_PyStr_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyBytes_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_string(std::string const &); /*proto*/
-static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
 #define __Pyx_MODULE_NAME "imageds"
 extern int __pyx_module_is_main_imageds;
 int __pyx_module_is_main_imageds = 0;
@@ -2051,6 +2050,8 @@ static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype cod
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static const char __pyx_k_Only_ImageDS_arrays_with_1_attri[] = "Only ImageDS arrays with 1 attribute is supported for now";
+static const char __pyx_k_Only_Py_ImageDSAttribute_type_su[] = "Only Py_ImageDSAttribute type supported as argument";
+static const char __pyx_k_Only_Py_ImageDSDimension_type_su[] = "Only Py_ImageDSDimension type supported as argument";
 static const char __pyx_k_Only_reading_the_entire_array_wi[] = "Only reading the entire array with all dimensions/attributes supported for now";
 static const char __pyx_k_Only_writing_the_entire_array_wi[] = "Only writing the entire array with all dimensions/attributes supported for now";
 static const char __pyx_k_Specify_at_least_one_attribute_w[] = "Specify at least one attribute while defining array";
@@ -2082,6 +2083,8 @@ static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_n_s_NONE;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_kp_u_Only_ImageDS_arrays_with_1_attri;
+static PyObject *__pyx_kp_u_Only_Py_ImageDSAttribute_type_su;
+static PyObject *__pyx_kp_u_Only_Py_ImageDSDimension_type_su;
 static PyObject *__pyx_kp_u_Only_reading_the_entire_array_wi;
 static PyObject *__pyx_kp_u_Only_writing_the_entire_array_wi;
 static PyObject *__pyx_n_s_Py_ImageDSAttribute;
@@ -2196,19 +2199,19 @@ static PyObject *__pyx_pf_7imageds_8_ImageDS_4array_info(struct __pyx_obj_7image
 static PyObject *__pyx_pf_7imageds_8_ImageDS_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_7imageds__ImageDS *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7imageds_8_ImageDS_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_7imageds__ImageDS *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_7imageds_2setup(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_workspace); /* proto */
+static PyObject *__pyx_pf_7imageds_19Py_ImageDSDimension___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent); /* proto */
+static PyObject *__pyx_pf_7imageds_19Py_ImageDSAttribute___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, attr_type_t __pyx_v_attr_type, compression_t __pyx_v_compression, PyObject *__pyx_v_compression_level); /* proto */
 static int __pyx_pf_7imageds_13_ImageDSArray___cinit__(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self); /* proto */
 static int __pyx_pf_7imageds_13_ImageDSArray_2__init__(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
 static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_7imageds_13_ImageDSArray_6__array__(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_dtype); /* proto */
 static PyObject *__pyx_pf_7imageds_13_ImageDSArray_8__repr__(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_key); /* proto */
-static PyObject *__pyx_pf_7imageds_13_ImageDSArray_12add_dimension(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent); /* proto */
-static PyObject *__pyx_pf_7imageds_13_ImageDSArray_14add_attribute(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_attr_type, PyObject *__pyx_v_compression, PyObject *__pyx_v_compression_level); /* proto */
+static PyObject *__pyx_pf_7imageds_13_ImageDSArray_12add_dimension(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_dimension); /* proto */
+static PyObject *__pyx_pf_7imageds_13_ImageDSArray_14add_attribute(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_attribute); /* proto */
 static PyObject *__pyx_pf_7imageds_13_ImageDSArray_16__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_7imageds_13_ImageDSArray_18__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_7imageds_19Py_ImageDSDimension___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent); /* proto */
 static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent); /* proto */
-static PyObject *__pyx_pf_7imageds_19Py_ImageDSAttribute___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, attr_type_t __pyx_v_attr_type, compression_t __pyx_v_compression, PyObject *__pyx_v_compression_level); /* proto */
 static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_name, PyObject *__pyx_v_dtype, compression_t __pyx_v_compression, PyObject *__pyx_v_compression_level); /* proto */
 static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path, PyObject *__pyx_v_dimensions, PyObject *__pyx_v_attributes); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -2216,17 +2219,17 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
 static PyObject *__pyx_tp_new_7imageds__ImageDS(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_7imageds__ImageDSArray(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
-static PyObject *__pyx_k__7;
-static compression_t __pyx_k__10;
+static compression_t __pyx_k__11;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
+static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__14;
@@ -2236,19 +2239,20 @@ static PyObject *__pyx_tuple__17;
 static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__20;
-static PyObject *__pyx_tuple__22;
-static PyObject *__pyx_tuple__24;
-static PyObject *__pyx_tuple__26;
-static PyObject *__pyx_tuple__28;
-static PyObject *__pyx_tuple__30;
-static PyObject *__pyx_tuple__32;
-static PyObject *__pyx_codeobj__21;
-static PyObject *__pyx_codeobj__23;
-static PyObject *__pyx_codeobj__25;
-static PyObject *__pyx_codeobj__27;
-static PyObject *__pyx_codeobj__29;
-static PyObject *__pyx_codeobj__31;
-static PyObject *__pyx_codeobj__33;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__33;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__24;
+static PyObject *__pyx_codeobj__26;
+static PyObject *__pyx_codeobj__28;
+static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
 /* Late includes */
 
 /* "utils.pxi":26
@@ -4105,7 +4109,7 @@ static PyObject *__pyx_pf_7imageds_2setup(CYTHON_UNUSED PyObject *__pyx_self, Py
  *     global _imageds # necessary
  *     _imageds = _ImageDS(workspace)             # <<<<<<<<<<<<<<
  * 
- * cdef class _ImageDSArray(object):
+ * class Py_ImageDSDimension:
  */
   __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7imageds__ImageDS), __pyx_v_workspace); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4135,7 +4139,343 @@ static PyObject *__pyx_pf_7imageds_2setup(CYTHON_UNUSED PyObject *__pyx_self, Py
   return __pyx_r;
 }
 
-/* "imageds.pyx":117
+/* "imageds.pyx":115
+ * 
+ * class Py_ImageDSDimension:
+ *     def __init__(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
+ *         self._name = name
+ *         self._start = start
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7imageds_19Py_ImageDSDimension_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7imageds_19Py_ImageDSDimension_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_19Py_ImageDSDimension_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7imageds_19Py_ImageDSDimension_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_name = 0;
+  PyObject *__pyx_v_start = 0;
+  PyObject *__pyx_v_end = 0;
+  PyObject *__pyx_v_tile_extent = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_name,&__pyx_n_s_start,&__pyx_n_s_end,&__pyx_n_s_tile_extent,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(1, 115, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(1, 115, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(1, 115, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tile_extent)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(1, 115, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 115, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_name = values[1];
+    __pyx_v_start = values[2];
+    __pyx_v_end = values[3];
+    __pyx_v_tile_extent = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 115, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("imageds.Py_ImageDSDimension.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_7imageds_19Py_ImageDSDimension___init__(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_start, __pyx_v_end, __pyx_v_tile_extent);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7imageds_19Py_ImageDSDimension___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "imageds.pyx":116
+ * class Py_ImageDSDimension:
+ *     def __init__(self, name, start, end, tile_extent):
+ *         self._name = name             # <<<<<<<<<<<<<<
+ *         self._start = start
+ *         self._end = end
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name_2, __pyx_v_name) < 0) __PYX_ERR(1, 116, __pyx_L1_error)
+
+  /* "imageds.pyx":117
+ *     def __init__(self, name, start, end, tile_extent):
+ *         self._name = name
+ *         self._start = start             # <<<<<<<<<<<<<<
+ *         self._end = end
+ *         self._tile_extent = tile_extent
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_start_2, __pyx_v_start) < 0) __PYX_ERR(1, 117, __pyx_L1_error)
+
+  /* "imageds.pyx":118
+ *         self._name = name
+ *         self._start = start
+ *         self._end = end             # <<<<<<<<<<<<<<
+ *         self._tile_extent = tile_extent
+ * 
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_end_2, __pyx_v_end) < 0) __PYX_ERR(1, 118, __pyx_L1_error)
+
+  /* "imageds.pyx":119
+ *         self._start = start
+ *         self._end = end
+ *         self._tile_extent = tile_extent             # <<<<<<<<<<<<<<
+ * 
+ * class Py_ImageDSAttribute:
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_tile_extent_2, __pyx_v_tile_extent) < 0) __PYX_ERR(1, 119, __pyx_L1_error)
+
+  /* "imageds.pyx":115
+ * 
+ * class Py_ImageDSDimension:
+ *     def __init__(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
+ *         self._name = name
+ *         self._start = start
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("imageds.Py_ImageDSDimension.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "imageds.pyx":122
+ * 
+ * class Py_ImageDSAttribute:
+ *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):             # <<<<<<<<<<<<<<
+ *         self._name = name
+ *         self._attr_type = attr_type
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7imageds_19Py_ImageDSAttribute_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7imageds_19Py_ImageDSAttribute_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_19Py_ImageDSAttribute_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7imageds_19Py_ImageDSAttribute_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_name = 0;
+  attr_type_t __pyx_v_attr_type;
+  compression_t __pyx_v_compression;
+  PyObject *__pyx_v_compression_level = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_name,&__pyx_n_s_attr_type,&__pyx_n_s_compression,&__pyx_n_s_compression_level,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(1, 122, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_attr_type)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(1, 122, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_compression)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(1, 122, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_compression_level)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(1, 122, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 122, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_name = values[1];
+    __pyx_v_attr_type = ((attr_type_t)__Pyx_PyInt_As_attr_type_t(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 122, __pyx_L3_error)
+    __pyx_v_compression = ((compression_t)__Pyx_PyInt_As_compression_t(values[3])); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 122, __pyx_L3_error)
+    __pyx_v_compression_level = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 122, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("imageds.Py_ImageDSAttribute.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_7imageds_19Py_ImageDSAttribute___init__(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_attr_type, __pyx_v_compression, __pyx_v_compression_level);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7imageds_19Py_ImageDSAttribute___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, attr_type_t __pyx_v_attr_type, compression_t __pyx_v_compression, PyObject *__pyx_v_compression_level) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "imageds.pyx":123
+ * class Py_ImageDSAttribute:
+ *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
+ *         self._name = name             # <<<<<<<<<<<<<<
+ *         self._attr_type = attr_type
+ *         self._compression = compression
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name_2, __pyx_v_name) < 0) __PYX_ERR(1, 123, __pyx_L1_error)
+
+  /* "imageds.pyx":124
+ *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
+ *         self._name = name
+ *         self._attr_type = attr_type             # <<<<<<<<<<<<<<
+ *         self._compression = compression
+ *         self._compression_level = compression_level
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_attr_type_t(__pyx_v_attr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_attr_type_2, __pyx_t_1) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "imageds.pyx":125
+ *         self._name = name
+ *         self._attr_type = attr_type
+ *         self._compression = compression             # <<<<<<<<<<<<<<
+ *         self._compression_level = compression_level
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_compression_t(__pyx_v_compression); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 125, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_compression_2, __pyx_t_1) < 0) __PYX_ERR(1, 125, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "imageds.pyx":126
+ *         self._attr_type = attr_type
+ *         self._compression = compression
+ *         self._compression_level = compression_level             # <<<<<<<<<<<<<<
+ * 
+ * cdef class _ImageDSArray(object):
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_compression_level_2, __pyx_v_compression_level) < 0) __PYX_ERR(1, 126, __pyx_L1_error)
+
+  /* "imageds.pyx":122
+ * 
+ * class Py_ImageDSAttribute:
+ *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):             # <<<<<<<<<<<<<<
+ *         self._name = name
+ *         self._attr_type = attr_type
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("imageds.Py_ImageDSAttribute.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "imageds.pyx":131
  *     cdef ImageDSArray* _array
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -4164,7 +4504,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray___cinit__(struct __pyx_obj_7imageds
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "imageds.pyx":118
+  /* "imageds.pyx":132
  * 
  *     def __cinit__(self):
  *         self._array = NULL             # <<<<<<<<<<<<<<
@@ -4173,7 +4513,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray___cinit__(struct __pyx_obj_7imageds
  */
   __pyx_v_self->_array = NULL;
 
-  /* "imageds.pyx":117
+  /* "imageds.pyx":131
  *     cdef ImageDSArray* _array
  * 
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
@@ -4187,7 +4527,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray___cinit__(struct __pyx_obj_7imageds
   return __pyx_r;
 }
 
-/* "imageds.pyx":120
+/* "imageds.pyx":134
  *         self._array = NULL
  * 
  *     def __init__(self, path):             # <<<<<<<<<<<<<<
@@ -4221,7 +4561,7 @@ static int __pyx_pw_7imageds_13_ImageDSArray_3__init__(PyObject *__pyx_v_self, P
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 120, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 134, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -4232,7 +4572,7 @@ static int __pyx_pw_7imageds_13_ImageDSArray_3__init__(PyObject *__pyx_v_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 120, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 134, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("imageds._ImageDSArray.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4251,7 +4591,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_2__init__(struct __pyx_obj_7imageds
   ImageDSArray *__pyx_t_1;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "imageds.pyx":121
+  /* "imageds.pyx":135
  * 
  *     def __init__(self, path):
  *         self._array = new ImageDSArray(as_string(path))             # <<<<<<<<<<<<<<
@@ -4262,11 +4602,11 @@ static int __pyx_pf_7imageds_13_ImageDSArray_2__init__(struct __pyx_obj_7imageds
     __pyx_t_1 = new ImageDSArray(__pyx_f_7imageds_as_string(__pyx_v_path));
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(1, 121, __pyx_L1_error)
+    __PYX_ERR(1, 135, __pyx_L1_error)
   }
   __pyx_v_self->_array = __pyx_t_1;
 
-  /* "imageds.pyx":120
+  /* "imageds.pyx":134
  *         self._array = NULL
  * 
  *     def __init__(self, path):             # <<<<<<<<<<<<<<
@@ -4285,7 +4625,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_2__init__(struct __pyx_obj_7imageds
   return __pyx_r;
 }
 
-/* "imageds.pyx":123
+/* "imageds.pyx":137
  *         self._array = new ImageDSArray(as_string(path))
  * 
  *     def __setitem__(self, key, value):             # <<<<<<<<<<<<<<
@@ -4321,7 +4661,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
   int __pyx_t_7;
   __Pyx_RefNannySetupContext("__setitem__", 0);
 
-  /* "imageds.pyx":124
+  /* "imageds.pyx":138
  * 
  *     def __setitem__(self, key, value):
  *         if self._array.attributes().size() != 1:             # <<<<<<<<<<<<<<
@@ -4331,20 +4671,20 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
   __pyx_t_1 = ((__pyx_v_self->_array->attributes().size() != 1) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "imageds.pyx":125
+    /* "imageds.pyx":139
  *     def __setitem__(self, key, value):
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")             # <<<<<<<<<<<<<<
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 125, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 139, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 125, __pyx_L1_error)
+    __PYX_ERR(1, 139, __pyx_L1_error)
 
-    /* "imageds.pyx":124
+    /* "imageds.pyx":138
  * 
  *     def __setitem__(self, key, value):
  *         if self._array.attributes().size() != 1:             # <<<<<<<<<<<<<<
@@ -4353,7 +4693,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
  */
   }
 
-  /* "imageds.pyx":126
+  /* "imageds.pyx":140
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
  *         if not isinstance(key, slice):             # <<<<<<<<<<<<<<
@@ -4364,14 +4704,14 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
   __pyx_t_3 = ((!(__pyx_t_1 != 0)) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "imageds.pyx":127
+    /* "imageds.pyx":141
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))             # <<<<<<<<<<<<<<
  *         if not isinstance(value, np.ndarray):
  *             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Unsupported_subscriptable_key_ty, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 127, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Unsupported_subscriptable_key_ty, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -4385,17 +4725,17 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
     }
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, ((PyObject *)Py_TYPE(__pyx_v_key))) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)Py_TYPE(__pyx_v_key)));
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 127, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 127, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(1, 127, __pyx_L1_error)
+    __PYX_ERR(1, 141, __pyx_L1_error)
 
-    /* "imageds.pyx":126
+    /* "imageds.pyx":140
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
  *         if not isinstance(key, slice):             # <<<<<<<<<<<<<<
@@ -4404,7 +4744,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
  */
   }
 
-  /* "imageds.pyx":128
+  /* "imageds.pyx":142
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if not isinstance(value, np.ndarray):             # <<<<<<<<<<<<<<
@@ -4415,14 +4755,14 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
   __pyx_t_1 = ((!(__pyx_t_3 != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "imageds.pyx":129
+    /* "imageds.pyx":143
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if not isinstance(value, np.ndarray):
  *             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))             # <<<<<<<<<<<<<<
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Unsupported_subscriptable_value, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Unsupported_subscriptable_value, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4436,17 +4776,17 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
     }
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, ((PyObject *)Py_TYPE(__pyx_v_value))) : __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)Py_TYPE(__pyx_v_value)));
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 129, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 129, __pyx_L1_error)
+    __PYX_ERR(1, 143, __pyx_L1_error)
 
-    /* "imageds.pyx":128
+    /* "imageds.pyx":142
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if not isinstance(value, np.ndarray):             # <<<<<<<<<<<<<<
@@ -4455,59 +4795,59 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
  */
   }
 
-  /* "imageds.pyx":130
+  /* "imageds.pyx":144
  *         if not isinstance(value, np.ndarray):
  *             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
  *         if key.start != None or key.stop != None or key.step != None:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")
  *         assert(value.ndim == self._array.dimensions().size())
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (!__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L7_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_stop); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_stop); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (!__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L7_bool_binop_done;
   }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_step); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_step); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 130, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = __pyx_t_3;
   __pyx_L7_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "imageds.pyx":131
+    /* "imageds.pyx":145
  *             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")             # <<<<<<<<<<<<<<
  *         assert(value.ndim == self._array.dimensions().size())
  *         assert(value.flags.c_contiguous)
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 131, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(1, 131, __pyx_L1_error)
+    __PYX_ERR(1, 145, __pyx_L1_error)
 
-    /* "imageds.pyx":130
+    /* "imageds.pyx":144
  *         if not isinstance(value, np.ndarray):
  *             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
  *         if key.start != None or key.stop != None or key.step != None:             # <<<<<<<<<<<<<<
@@ -4516,7 +4856,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
  */
   }
 
-  /* "imageds.pyx":132
+  /* "imageds.pyx":146
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")
  *         assert(value.ndim == self._array.dimensions().size())             # <<<<<<<<<<<<<<
@@ -4525,23 +4865,23 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_ndim); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 132, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_ndim); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_array->dimensions().size()); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 132, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_array->dimensions().size()); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 132, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 132, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 146, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(!__pyx_t_1)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(1, 132, __pyx_L1_error)
+      __PYX_ERR(1, 146, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "imageds.pyx":133
+  /* "imageds.pyx":147
  *             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")
  *         assert(value.ndim == self._array.dimensions().size())
  *         assert(value.flags.c_contiguous)             # <<<<<<<<<<<<<<
@@ -4550,67 +4890,67 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_flags); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 133, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_flags); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_c_contiguous); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 133, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_c_contiguous); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 133, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (unlikely(!__pyx_t_1)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(1, 133, __pyx_L1_error)
+      __PYX_ERR(1, 147, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "imageds.pyx":136
+  /* "imageds.pyx":150
  *         cdef vector[void *] buffers
  *         cdef vector[size_t] buffer_sizes
  *         buffers.push_back(np.PyArray_DATA(value))             # <<<<<<<<<<<<<<
  *         buffer_sizes.push_back(value.nbytes)
  *         cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)
  */
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 136, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 150, __pyx_L1_error)
   try {
     __pyx_v_buffers.push_back(PyArray_DATA(((PyArrayObject *)__pyx_v_value)));
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(1, 136, __pyx_L1_error)
+    __PYX_ERR(1, 150, __pyx_L1_error)
   }
 
-  /* "imageds.pyx":137
+  /* "imageds.pyx":151
  *         cdef vector[size_t] buffer_sizes
  *         buffers.push_back(np.PyArray_DATA(value))
  *         buffer_sizes.push_back(value.nbytes)             # <<<<<<<<<<<<<<
  *         cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)
  *         assert(rc == 0)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_nbytes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_nbytes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyInt_As_size_t(__pyx_t_2); if (unlikely((__pyx_t_6 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_size_t(__pyx_t_2); if (unlikely((__pyx_t_6 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 151, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   try {
     __pyx_v_buffer_sizes.push_back(__pyx_t_6);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(1, 137, __pyx_L1_error)
+    __PYX_ERR(1, 151, __pyx_L1_error)
   }
 
-  /* "imageds.pyx":138
+  /* "imageds.pyx":152
  *         buffers.push_back(np.PyArray_DATA(value))
  *         buffer_sizes.push_back(value.nbytes)
  *         cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)             # <<<<<<<<<<<<<<
  *         assert(rc == 0)
  * 
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_7imageds__ImageDS *)__pyx_v_7imageds__imageds->__pyx_vtab)->to_image(__pyx_v_7imageds__imageds, __pyx_v_self, __pyx_v_buffers, __pyx_v_buffer_sizes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 138, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_7imageds__ImageDS *)__pyx_v_7imageds__imageds->__pyx_vtab)->to_image(__pyx_v_7imageds__imageds, __pyx_v_self, __pyx_v_buffers, __pyx_v_buffer_sizes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 138, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 152, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_rc = __pyx_t_7;
 
-  /* "imageds.pyx":139
+  /* "imageds.pyx":153
  *         buffer_sizes.push_back(value.nbytes)
  *         cdef int rc = _imageds.to_image(self, buffers, buffer_sizes)
  *         assert(rc == 0)             # <<<<<<<<<<<<<<
@@ -4621,12 +4961,12 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
   if (unlikely(!Py_OptimizeFlag)) {
     if (unlikely(!((__pyx_v_rc == 0) != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(1, 139, __pyx_L1_error)
+      __PYX_ERR(1, 153, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "imageds.pyx":123
+  /* "imageds.pyx":137
  *         self._array = new ImageDSArray(as_string(path))
  * 
  *     def __setitem__(self, key, value):             # <<<<<<<<<<<<<<
@@ -4648,7 +4988,7 @@ static int __pyx_pf_7imageds_13_ImageDSArray_4__setitem__(struct __pyx_obj_7imag
   return __pyx_r;
 }
 
-/* "imageds.pyx":141
+/* "imageds.pyx":155
  *         assert(rc == 0)
  * 
  *     def __array__(self, dtype=None):             # <<<<<<<<<<<<<<
@@ -4685,7 +5025,7 @@ static PyObject *__pyx_pw_7imageds_13_ImageDSArray_7__array__(PyObject *__pyx_v_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__array__") < 0)) __PYX_ERR(1, 141, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__array__") < 0)) __PYX_ERR(1, 155, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4699,7 +5039,7 @@ static PyObject *__pyx_pw_7imageds_13_ImageDSArray_7__array__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__array__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 141, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__array__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 155, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("imageds._ImageDSArray.__array__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4723,49 +5063,49 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_6__array__(struct __pyx_obj_7
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__array__", 0);
 
-  /* "imageds.pyx":142
+  /* "imageds.pyx":156
  * 
  *     def __array__(self, dtype=None):
  *         a = self[...]             # <<<<<<<<<<<<<<
  *         if dtype and a.dtype != dtype:
  *             a = a.astype(dtype)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_self), Py_Ellipsis); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 142, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_self), Py_Ellipsis); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_a = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "imageds.pyx":143
+  /* "imageds.pyx":157
  *     def __array__(self, dtype=None):
  *         a = self[...]
  *         if dtype and a.dtype != dtype:             # <<<<<<<<<<<<<<
  *             a = a.astype(dtype)
  *         return a
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_dtype); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_dtype); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 157, __pyx_L1_error)
   if (__pyx_t_3) {
   } else {
     __pyx_t_2 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_a, __pyx_n_s_dtype); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_a, __pyx_n_s_dtype); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_v_dtype, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_v_dtype, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_2 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_2) {
 
-    /* "imageds.pyx":144
+    /* "imageds.pyx":158
  *         a = self[...]
  *         if dtype and a.dtype != dtype:
  *             a = a.astype(dtype)             # <<<<<<<<<<<<<<
  *         return a
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_a, __pyx_n_s_astype); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 144, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_a, __pyx_n_s_astype); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -4779,13 +5119,13 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_6__array__(struct __pyx_obj_7
     }
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_5, __pyx_v_dtype) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_dtype);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 144, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_a, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "imageds.pyx":143
+    /* "imageds.pyx":157
  *     def __array__(self, dtype=None):
  *         a = self[...]
  *         if dtype and a.dtype != dtype:             # <<<<<<<<<<<<<<
@@ -4794,7 +5134,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_6__array__(struct __pyx_obj_7
  */
   }
 
-  /* "imageds.pyx":145
+  /* "imageds.pyx":159
  *         if dtype and a.dtype != dtype:
  *             a = a.astype(dtype)
  *         return a             # <<<<<<<<<<<<<<
@@ -4806,7 +5146,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_6__array__(struct __pyx_obj_7
   __pyx_r = __pyx_v_a;
   goto __pyx_L0;
 
-  /* "imageds.pyx":141
+  /* "imageds.pyx":155
  *         assert(rc == 0)
  * 
  *     def __array__(self, dtype=None):             # <<<<<<<<<<<<<<
@@ -4828,7 +5168,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_6__array__(struct __pyx_obj_7
   return __pyx_r;
 }
 
-/* "imageds.pyx":147
+/* "imageds.pyx":161
  *         return a
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -4858,7 +5198,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_8__repr__(struct __pyx_obj_7i
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "imageds.pyx":148
+  /* "imageds.pyx":162
  * 
  *     def __repr__(self):
  *         return self.__array__().__repr__()             # <<<<<<<<<<<<<<
@@ -4866,7 +5206,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_8__repr__(struct __pyx_obj_7i
  *     def __getitem__(self, object key):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4880,10 +5220,10 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_8__repr__(struct __pyx_obj_7i
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_repr); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_repr); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4898,14 +5238,14 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_8__repr__(struct __pyx_obj_7i
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "imageds.pyx":147
+  /* "imageds.pyx":161
  *         return a
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -4927,7 +5267,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_8__repr__(struct __pyx_obj_7i
   return __pyx_r;
 }
 
-/* "imageds.pyx":150
+/* "imageds.pyx":164
  *         return self.__array__().__repr__()
  * 
  *     def __getitem__(self, object key):             # <<<<<<<<<<<<<<
@@ -4972,7 +5312,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "imageds.pyx":151
+  /* "imageds.pyx":165
  * 
  *     def __getitem__(self, object key):
  *         if self._array.attributes().size() != 1:             # <<<<<<<<<<<<<<
@@ -4982,20 +5322,20 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   __pyx_t_1 = ((__pyx_v_self->_array->attributes().size() != 1) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "imageds.pyx":152
+    /* "imageds.pyx":166
  *     def __getitem__(self, object key):
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")             # <<<<<<<<<<<<<<
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 166, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 152, __pyx_L1_error)
+    __PYX_ERR(1, 166, __pyx_L1_error)
 
-    /* "imageds.pyx":151
+    /* "imageds.pyx":165
  * 
  *     def __getitem__(self, object key):
  *         if self._array.attributes().size() != 1:             # <<<<<<<<<<<<<<
@@ -5004,7 +5344,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
  */
   }
 
-  /* "imageds.pyx":153
+  /* "imageds.pyx":167
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
  *         if not isinstance(key, slice):             # <<<<<<<<<<<<<<
@@ -5015,14 +5355,14 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   __pyx_t_3 = ((!(__pyx_t_1 != 0)) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "imageds.pyx":154
+    /* "imageds.pyx":168
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))             # <<<<<<<<<<<<<<
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Unsupported_subscriptable_key_ty, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 154, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Unsupported_subscriptable_key_ty, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5036,17 +5376,17 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
     }
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, ((PyObject *)Py_TYPE(__pyx_v_key))) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)Py_TYPE(__pyx_v_key)));
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 154, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 154, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(1, 154, __pyx_L1_error)
+    __PYX_ERR(1, 168, __pyx_L1_error)
 
-    /* "imageds.pyx":153
+    /* "imageds.pyx":167
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")
  *         if not isinstance(key, slice):             # <<<<<<<<<<<<<<
@@ -5055,59 +5395,59 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
  */
   }
 
-  /* "imageds.pyx":155
+  /* "imageds.pyx":169
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if key.start != None or key.stop != None or key.step != None:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")
  *         nbytes = 0
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (!__pyx_t_1) {
   } else {
     __pyx_t_3 = __pyx_t_1;
     goto __pyx_L6_bool_binop_done;
   }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_stop); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_stop); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (!__pyx_t_1) {
   } else {
     __pyx_t_3 = __pyx_t_1;
     goto __pyx_L6_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_step); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_key, __pyx_n_s_step); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 155, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_3 = __pyx_t_1;
   __pyx_L6_bool_binop_done:;
   if (unlikely(__pyx_t_3)) {
 
-    /* "imageds.pyx":156
+    /* "imageds.pyx":170
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")             # <<<<<<<<<<<<<<
  *         nbytes = 0
  *         dim_list = []
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 156, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 156, __pyx_L1_error)
+    __PYX_ERR(1, 170, __pyx_L1_error)
 
-    /* "imageds.pyx":155
+    /* "imageds.pyx":169
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if key.start != None or key.stop != None or key.step != None:             # <<<<<<<<<<<<<<
@@ -5116,7 +5456,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
  */
   }
 
-  /* "imageds.pyx":157
+  /* "imageds.pyx":171
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")
  *         nbytes = 0             # <<<<<<<<<<<<<<
@@ -5125,19 +5465,19 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
  */
   __pyx_v_nbytes = 0;
 
-  /* "imageds.pyx":158
+  /* "imageds.pyx":172
  *             raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")
  *         nbytes = 0
  *         dim_list = []             # <<<<<<<<<<<<<<
  *         for i in range(self._array.dimensions().size()):
  *             dim_list.append(deref(self._array.dimensions().data()[i]).end()
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 158, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_dim_list = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "imageds.pyx":159
+  /* "imageds.pyx":173
  *         nbytes = 0
  *         dim_list = []
  *         for i in range(self._array.dimensions().size()):             # <<<<<<<<<<<<<<
@@ -5149,54 +5489,54 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "imageds.pyx":161
+    /* "imageds.pyx":175
  *         for i in range(self._array.dimensions().size()):
  *             dim_list.append(deref(self._array.dimensions().data()[i]).end()
  *                             -deref(self._array.dimensions().data()[i]).start() + 1)             # <<<<<<<<<<<<<<
  *         np_array = np.empty(tuple(dim_list), dtype=to_dtype(deref(self._array.attributes().data()[0]).type()), order='C')
  *         cdef vector[void *] buffers
  */
-    __pyx_t_2 = __Pyx_PyInt_From_uint64_t((((*(__pyx_v_self->_array->dimensions().data()[__pyx_v_i])).end() - (*(__pyx_v_self->_array->dimensions().data()[__pyx_v_i])).start()) + 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 161, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_uint64_t((((*(__pyx_v_self->_array->dimensions().data()[__pyx_v_i])).end() - (*(__pyx_v_self->_array->dimensions().data()[__pyx_v_i])).start()) + 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
 
-    /* "imageds.pyx":160
+    /* "imageds.pyx":174
  *         dim_list = []
  *         for i in range(self._array.dimensions().size()):
  *             dim_list.append(deref(self._array.dimensions().data()[i]).end()             # <<<<<<<<<<<<<<
  *                             -deref(self._array.dimensions().data()[i]).start() + 1)
  *         np_array = np.empty(tuple(dim_list), dtype=to_dtype(deref(self._array.attributes().data()[0]).type()), order='C')
  */
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_dim_list, __pyx_t_2); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 160, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_dim_list, __pyx_t_2); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 174, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "imageds.pyx":162
+  /* "imageds.pyx":176
  *             dim_list.append(deref(self._array.dimensions().data()[i]).end()
  *                             -deref(self._array.dimensions().data()[i]).start() + 1)
  *         np_array = np.empty(tuple(dim_list), dtype=to_dtype(deref(self._array.attributes().data()[0]).type()), order='C')             # <<<<<<<<<<<<<<
  *         cdef vector[void *] buffers
  *         cdef vector[size_t] buffer_sizes
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyList_AsTuple(__pyx_v_dim_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_2 = PyList_AsTuple(__pyx_v_dim_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_10 = ((PyObject *)__pyx_f_7imageds_to_dtype((*(__pyx_v_self->_array->attributes().data()[0])).type())); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_10 = ((PyObject *)__pyx_f_7imageds_to_dtype((*(__pyx_v_self->_array->attributes().data()[0])).type())); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(1, 162, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_order, __pyx_n_u_C) < 0) __PYX_ERR(1, 162, __pyx_L1_error)
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 162, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_order, __pyx_n_u_C) < 0) __PYX_ERR(1, 176, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5204,53 +5544,53 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   __pyx_v_np_array = __pyx_t_10;
   __pyx_t_10 = 0;
 
-  /* "imageds.pyx":165
+  /* "imageds.pyx":179
  *         cdef vector[void *] buffers
  *         cdef vector[size_t] buffer_sizes
  *         buffers.push_back(np.PyArray_DATA(np_array))             # <<<<<<<<<<<<<<
  *         buffer_sizes.push_back(np_array.nbytes)
  *         cdef int rc = _imageds.from_image(self, buffers, buffer_sizes)
  */
-  if (!(likely(((__pyx_v_np_array) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_np_array, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 165, __pyx_L1_error)
+  if (!(likely(((__pyx_v_np_array) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_np_array, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 179, __pyx_L1_error)
   try {
     __pyx_v_buffers.push_back(PyArray_DATA(((PyArrayObject *)__pyx_v_np_array)));
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(1, 165, __pyx_L1_error)
+    __PYX_ERR(1, 179, __pyx_L1_error)
   }
 
-  /* "imageds.pyx":166
+  /* "imageds.pyx":180
  *         cdef vector[size_t] buffer_sizes
  *         buffers.push_back(np.PyArray_DATA(np_array))
  *         buffer_sizes.push_back(np_array.nbytes)             # <<<<<<<<<<<<<<
  *         cdef int rc = _imageds.from_image(self, buffers, buffer_sizes)
  *         assert(rc == 0)
  */
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_np_array, __pyx_n_s_nbytes); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 166, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_np_array, __pyx_n_s_nbytes); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_11 = __Pyx_PyInt_As_size_t(__pyx_t_10); if (unlikely((__pyx_t_11 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 166, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyInt_As_size_t(__pyx_t_10); if (unlikely((__pyx_t_11 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 180, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   try {
     __pyx_v_buffer_sizes.push_back(__pyx_t_11);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(1, 166, __pyx_L1_error)
+    __PYX_ERR(1, 180, __pyx_L1_error)
   }
 
-  /* "imageds.pyx":167
+  /* "imageds.pyx":181
  *         buffers.push_back(np.PyArray_DATA(np_array))
  *         buffer_sizes.push_back(np_array.nbytes)
  *         cdef int rc = _imageds.from_image(self, buffers, buffer_sizes)             # <<<<<<<<<<<<<<
  *         assert(rc == 0)
  *         return np_array
  */
-  __pyx_t_10 = ((struct __pyx_vtabstruct_7imageds__ImageDS *)__pyx_v_7imageds__imageds->__pyx_vtab)->from_image(__pyx_v_7imageds__imageds, __pyx_v_self, __pyx_v_buffers, __pyx_v_buffer_sizes); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 167, __pyx_L1_error)
+  __pyx_t_10 = ((struct __pyx_vtabstruct_7imageds__ImageDS *)__pyx_v_7imageds__imageds->__pyx_vtab)->from_image(__pyx_v_7imageds__imageds, __pyx_v_self, __pyx_v_buffers, __pyx_v_buffer_sizes); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_12 = __Pyx_PyInt_As_int(__pyx_t_10); if (unlikely((__pyx_t_12 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 167, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyInt_As_int(__pyx_t_10); if (unlikely((__pyx_t_12 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 181, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __pyx_v_rc = __pyx_t_12;
 
-  /* "imageds.pyx":168
+  /* "imageds.pyx":182
  *         buffer_sizes.push_back(np_array.nbytes)
  *         cdef int rc = _imageds.from_image(self, buffers, buffer_sizes)
  *         assert(rc == 0)             # <<<<<<<<<<<<<<
@@ -5261,12 +5601,12 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   if (unlikely(!Py_OptimizeFlag)) {
     if (unlikely(!((__pyx_v_rc == 0) != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(1, 168, __pyx_L1_error)
+      __PYX_ERR(1, 182, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "imageds.pyx":169
+  /* "imageds.pyx":183
  *         cdef int rc = _imageds.from_image(self, buffers, buffer_sizes)
  *         assert(rc == 0)
  *         return np_array             # <<<<<<<<<<<<<<
@@ -5278,7 +5618,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   __pyx_r = __pyx_v_np_array;
   goto __pyx_L0;
 
-  /* "imageds.pyx":150
+  /* "imageds.pyx":164
  *         return self.__array__().__repr__()
  * 
  *     def __getitem__(self, object key):             # <<<<<<<<<<<<<<
@@ -5302,7 +5642,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_10__getitem__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "imageds.pyx":171
+/* "imageds.pyx":185
  *         return np_array
  * 
  *     cdef ImageDSArray *get(self):             # <<<<<<<<<<<<<<
@@ -5315,17 +5655,17 @@ static ImageDSArray *__pyx_f_7imageds_13_ImageDSArray_get(struct __pyx_obj_7imag
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "imageds.pyx":172
+  /* "imageds.pyx":186
  * 
  *     cdef ImageDSArray *get(self):
  *         return self._array             # <<<<<<<<<<<<<<
  * 
- *     def add_dimension(self, name, start, end, tile_extent):
+ *     def add_dimension(self, dimension):
  */
   __pyx_r = __pyx_v_self->_array;
   goto __pyx_L0;
 
-  /* "imageds.pyx":171
+  /* "imageds.pyx":185
  *         return np_array
  * 
  *     cdef ImageDSArray *get(self):             # <<<<<<<<<<<<<<
@@ -5339,131 +5679,149 @@ static ImageDSArray *__pyx_f_7imageds_13_ImageDSArray_get(struct __pyx_obj_7imag
   return __pyx_r;
 }
 
-/* "imageds.pyx":174
+/* "imageds.pyx":188
  *         return self._array
  * 
- *     def add_dimension(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
- *         self._array.add_dimension(name, start, end, tile_extent)
- * 
+ *     def add_dimension(self, dimension):             # <<<<<<<<<<<<<<
+ *         if type(dimension) is Py_ImageDSDimension:
+ *             self._array.add_dimension(as_string(dimension._name),
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7imageds_13_ImageDSArray_13add_dimension(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_7imageds_13_ImageDSArray_13add_dimension(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_name = 0;
-  PyObject *__pyx_v_start = 0;
-  PyObject *__pyx_v_end = 0;
-  PyObject *__pyx_v_tile_extent = 0;
+static PyObject *__pyx_pw_7imageds_13_ImageDSArray_13add_dimension(PyObject *__pyx_v_self, PyObject *__pyx_v_dimension); /*proto*/
+static PyObject *__pyx_pw_7imageds_13_ImageDSArray_13add_dimension(PyObject *__pyx_v_self, PyObject *__pyx_v_dimension) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("add_dimension (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_name,&__pyx_n_s_start,&__pyx_n_s_end,&__pyx_n_s_tile_extent,0};
-    PyObject* values[4] = {0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("add_dimension", 1, 4, 4, 1); __PYX_ERR(1, 174, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("add_dimension", 1, 4, 4, 2); __PYX_ERR(1, 174, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tile_extent)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("add_dimension", 1, 4, 4, 3); __PYX_ERR(1, 174, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_dimension") < 0)) __PYX_ERR(1, 174, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-    }
-    __pyx_v_name = values[0];
-    __pyx_v_start = values[1];
-    __pyx_v_end = values[2];
-    __pyx_v_tile_extent = values[3];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_dimension", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 174, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("imageds._ImageDSArray.add_dimension", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7imageds_13_ImageDSArray_12add_dimension(((struct __pyx_obj_7imageds__ImageDSArray *)__pyx_v_self), __pyx_v_name, __pyx_v_start, __pyx_v_end, __pyx_v_tile_extent);
+  __pyx_r = __pyx_pf_7imageds_13_ImageDSArray_12add_dimension(((struct __pyx_obj_7imageds__ImageDSArray *)__pyx_v_self), ((PyObject *)__pyx_v_dimension));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7imageds_13_ImageDSArray_12add_dimension(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent) {
+static PyObject *__pyx_pf_7imageds_13_ImageDSArray_12add_dimension(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_dimension) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  std::string __pyx_t_1;
-  uint64_t __pyx_t_2;
-  uint64_t __pyx_t_3;
-  uint64_t __pyx_t_4;
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  uint64_t __pyx_t_5;
+  uint64_t __pyx_t_6;
+  uint64_t __pyx_t_7;
   __Pyx_RefNannySetupContext("add_dimension", 0);
 
-  /* "imageds.pyx":175
+  /* "imageds.pyx":189
  * 
- *     def add_dimension(self, name, start, end, tile_extent):
- *         self._array.add_dimension(name, start, end, tile_extent)             # <<<<<<<<<<<<<<
- * 
- *     def add_attribute(self, name, attr_type, compression=NONE, compression_level=0):
+ *     def add_dimension(self, dimension):
+ *         if type(dimension) is Py_ImageDSDimension:             # <<<<<<<<<<<<<<
+ *             self._array.add_dimension(as_string(dimension._name),
+ *                                       dimension._start,
  */
-  __pyx_t_1 = __pyx_convert_string_from_py_std__in_string(__pyx_v_name); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 175, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_uint64_t(__pyx_v_start); if (unlikely((__pyx_t_2 == ((uint64_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 175, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_uint64_t(__pyx_v_end); if (unlikely((__pyx_t_3 == ((uint64_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 175, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_uint64_t(__pyx_v_tile_extent); if (unlikely((__pyx_t_4 == ((uint64_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 175, __pyx_L1_error)
-  __pyx_v_self->_array->add_dimension(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Py_ImageDSDimension); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 189, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (((PyObject *)Py_TYPE(__pyx_v_dimension)) == __pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = (__pyx_t_2 != 0);
+  if (likely(__pyx_t_3)) {
 
-  /* "imageds.pyx":174
+    /* "imageds.pyx":190
+ *     def add_dimension(self, dimension):
+ *         if type(dimension) is Py_ImageDSDimension:
+ *             self._array.add_dimension(as_string(dimension._name),             # <<<<<<<<<<<<<<
+ *                                       dimension._start,
+ *                                       dimension._end,
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_name_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 190, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+
+    /* "imageds.pyx":191
+ *         if type(dimension) is Py_ImageDSDimension:
+ *             self._array.add_dimension(as_string(dimension._name),
+ *                                       dimension._start,             # <<<<<<<<<<<<<<
+ *                                       dimension._end,
+ *                                       dimension._tile_extent)
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_start_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 191, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyInt_As_uint64_t(__pyx_t_4); if (unlikely((__pyx_t_5 == ((uint64_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 191, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "imageds.pyx":192
+ *             self._array.add_dimension(as_string(dimension._name),
+ *                                       dimension._start,
+ *                                       dimension._end,             # <<<<<<<<<<<<<<
+ *                                       dimension._tile_extent)
+ *         else:
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_end_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 192, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyInt_As_uint64_t(__pyx_t_4); if (unlikely((__pyx_t_6 == ((uint64_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 192, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "imageds.pyx":193
+ *                                       dimension._start,
+ *                                       dimension._end,
+ *                                       dimension._tile_extent)             # <<<<<<<<<<<<<<
+ *         else:
+ *             raise TypeError("Only Py_ImageDSDimension type supported as argument")
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_tile_extent_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 193, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_As_uint64_t(__pyx_t_4); if (unlikely((__pyx_t_7 == ((uint64_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 193, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "imageds.pyx":190
+ *     def add_dimension(self, dimension):
+ *         if type(dimension) is Py_ImageDSDimension:
+ *             self._array.add_dimension(as_string(dimension._name),             # <<<<<<<<<<<<<<
+ *                                       dimension._start,
+ *                                       dimension._end,
+ */
+    __pyx_v_self->_array->add_dimension(__pyx_f_7imageds_as_string(__pyx_t_1), __pyx_t_5, __pyx_t_6, __pyx_t_7);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "imageds.pyx":189
+ * 
+ *     def add_dimension(self, dimension):
+ *         if type(dimension) is Py_ImageDSDimension:             # <<<<<<<<<<<<<<
+ *             self._array.add_dimension(as_string(dimension._name),
+ *                                       dimension._start,
+ */
+    goto __pyx_L3;
+  }
+
+  /* "imageds.pyx":195
+ *                                       dimension._tile_extent)
+ *         else:
+ *             raise TypeError("Only Py_ImageDSDimension type supported as argument")             # <<<<<<<<<<<<<<
+ * 
+ *     def add_attribute(self, attribute):
+ */
+  /*else*/ {
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 195, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(1, 195, __pyx_L1_error)
+  }
+  __pyx_L3:;
+
+  /* "imageds.pyx":188
  *         return self._array
  * 
- *     def add_dimension(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
- *         self._array.add_dimension(name, start, end, tile_extent)
- * 
+ *     def add_dimension(self, dimension):             # <<<<<<<<<<<<<<
+ *         if type(dimension) is Py_ImageDSDimension:
+ *             self._array.add_dimension(as_string(dimension._name),
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("imageds._ImageDSArray.add_dimension", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -5472,137 +5830,149 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_12add_dimension(struct __pyx_
   return __pyx_r;
 }
 
-/* "imageds.pyx":177
- *         self._array.add_dimension(name, start, end, tile_extent)
+/* "imageds.pyx":197
+ *             raise TypeError("Only Py_ImageDSDimension type supported as argument")
  * 
- *     def add_attribute(self, name, attr_type, compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
- *         self._array.add_attribute(name, attr_type, compression, compression_level)
- * 
+ *     def add_attribute(self, attribute):             # <<<<<<<<<<<<<<
+ *         if type(attribute) is Py_ImageDSAttribute:
+ *             self._array.add_attribute(as_string(attribute._name),
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7imageds_13_ImageDSArray_15add_attribute(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_7imageds_13_ImageDSArray_15add_attribute(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_name = 0;
-  PyObject *__pyx_v_attr_type = 0;
-  PyObject *__pyx_v_compression = 0;
-  PyObject *__pyx_v_compression_level = 0;
+static PyObject *__pyx_pw_7imageds_13_ImageDSArray_15add_attribute(PyObject *__pyx_v_self, PyObject *__pyx_v_attribute); /*proto*/
+static PyObject *__pyx_pw_7imageds_13_ImageDSArray_15add_attribute(PyObject *__pyx_v_self, PyObject *__pyx_v_attribute) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("add_attribute (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_name,&__pyx_n_s_attr_type,&__pyx_n_s_compression,&__pyx_n_s_compression_level,0};
-    PyObject* values[4] = {0,0,0,0};
-    values[2] = __pyx_k__7;
-    values[3] = ((PyObject *)__pyx_int_0);
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_attr_type)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("add_attribute", 0, 2, 4, 1); __PYX_ERR(1, 177, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_compression);
-          if (value) { values[2] = value; kw_args--; }
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_compression_level);
-          if (value) { values[3] = value; kw_args--; }
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_attribute") < 0)) __PYX_ERR(1, 177, __pyx_L3_error)
-      }
-    } else {
-      switch (PyTuple_GET_SIZE(__pyx_args)) {
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-    }
-    __pyx_v_name = values[0];
-    __pyx_v_attr_type = values[1];
-    __pyx_v_compression = values[2];
-    __pyx_v_compression_level = values[3];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_attribute", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 177, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("imageds._ImageDSArray.add_attribute", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7imageds_13_ImageDSArray_14add_attribute(((struct __pyx_obj_7imageds__ImageDSArray *)__pyx_v_self), __pyx_v_name, __pyx_v_attr_type, __pyx_v_compression, __pyx_v_compression_level);
+  __pyx_r = __pyx_pf_7imageds_13_ImageDSArray_14add_attribute(((struct __pyx_obj_7imageds__ImageDSArray *)__pyx_v_self), ((PyObject *)__pyx_v_attribute));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7imageds_13_ImageDSArray_14add_attribute(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_attr_type, PyObject *__pyx_v_compression, PyObject *__pyx_v_compression_level) {
+static PyObject *__pyx_pf_7imageds_13_ImageDSArray_14add_attribute(struct __pyx_obj_7imageds__ImageDSArray *__pyx_v_self, PyObject *__pyx_v_attribute) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  std::string __pyx_t_1;
-  attr_type_t __pyx_t_2;
-  compression_t __pyx_t_3;
-  int __pyx_t_4;
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  attr_type_t __pyx_t_5;
+  compression_t __pyx_t_6;
+  int __pyx_t_7;
   __Pyx_RefNannySetupContext("add_attribute", 0);
 
-  /* "imageds.pyx":178
+  /* "imageds.pyx":198
  * 
- *     def add_attribute(self, name, attr_type, compression=NONE, compression_level=0):
- *         self._array.add_attribute(name, attr_type, compression, compression_level)             # <<<<<<<<<<<<<<
- * 
- * class Py_ImageDSDimension:
+ *     def add_attribute(self, attribute):
+ *         if type(attribute) is Py_ImageDSAttribute:             # <<<<<<<<<<<<<<
+ *             self._array.add_attribute(as_string(attribute._name),
+ *                                       attribute._attr_type,
  */
-  __pyx_t_1 = __pyx_convert_string_from_py_std__in_string(__pyx_v_name); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 178, __pyx_L1_error)
-  __pyx_t_2 = ((attr_type_t)__Pyx_PyInt_As_attr_type_t(__pyx_v_attr_type)); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 178, __pyx_L1_error)
-  __pyx_t_3 = ((compression_t)__Pyx_PyInt_As_compression_t(__pyx_v_compression)); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 178, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_compression_level); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 178, __pyx_L1_error)
-  __pyx_v_self->_array->add_attribute(__pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4);
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Py_ImageDSAttribute); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 198, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (((PyObject *)Py_TYPE(__pyx_v_attribute)) == __pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = (__pyx_t_2 != 0);
+  if (likely(__pyx_t_3)) {
 
-  /* "imageds.pyx":177
- *         self._array.add_dimension(name, start, end, tile_extent)
+    /* "imageds.pyx":199
+ *     def add_attribute(self, attribute):
+ *         if type(attribute) is Py_ImageDSAttribute:
+ *             self._array.add_attribute(as_string(attribute._name),             # <<<<<<<<<<<<<<
+ *                                       attribute._attr_type,
+ *                                       attribute._compression,
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_name_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 199, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+
+    /* "imageds.pyx":200
+ *         if type(attribute) is Py_ImageDSAttribute:
+ *             self._array.add_attribute(as_string(attribute._name),
+ *                                       attribute._attr_type,             # <<<<<<<<<<<<<<
+ *                                       attribute._compression,
+ *                                       attribute._compression_level)
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_attr_type_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 200, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = ((attr_type_t)__Pyx_PyInt_As_attr_type_t(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 200, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "imageds.pyx":201
+ *             self._array.add_attribute(as_string(attribute._name),
+ *                                       attribute._attr_type,
+ *                                       attribute._compression,             # <<<<<<<<<<<<<<
+ *                                       attribute._compression_level)
+ *         else:
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_compression_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 201, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = ((compression_t)__Pyx_PyInt_As_compression_t(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 201, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "imageds.pyx":202
+ *                                       attribute._attr_type,
+ *                                       attribute._compression,
+ *                                       attribute._compression_level)             # <<<<<<<<<<<<<<
+ *         else:
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_compression_level_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 202, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 202, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "imageds.pyx":199
+ *     def add_attribute(self, attribute):
+ *         if type(attribute) is Py_ImageDSAttribute:
+ *             self._array.add_attribute(as_string(attribute._name),             # <<<<<<<<<<<<<<
+ *                                       attribute._attr_type,
+ *                                       attribute._compression,
+ */
+    __pyx_v_self->_array->add_attribute(__pyx_f_7imageds_as_string(__pyx_t_1), __pyx_t_5, __pyx_t_6, __pyx_t_7);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "imageds.pyx":198
  * 
- *     def add_attribute(self, name, attr_type, compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
- *         self._array.add_attribute(name, attr_type, compression, compression_level)
+ *     def add_attribute(self, attribute):
+ *         if type(attribute) is Py_ImageDSAttribute:             # <<<<<<<<<<<<<<
+ *             self._array.add_attribute(as_string(attribute._name),
+ *                                       attribute._attr_type,
+ */
+    goto __pyx_L3;
+  }
+
+  /* "imageds.pyx":204
+ *                                       attribute._compression_level)
+ *         else:
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")             # <<<<<<<<<<<<<<
  * 
+ * def array_dimension(name, start, end, tile_extent):
+ */
+  /*else*/ {
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 204, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(1, 204, __pyx_L1_error)
+  }
+  __pyx_L3:;
+
+  /* "imageds.pyx":197
+ *             raise TypeError("Only Py_ImageDSDimension type supported as argument")
+ * 
+ *     def add_attribute(self, attribute):             # <<<<<<<<<<<<<<
+ *         if type(attribute) is Py_ImageDSAttribute:
+ *             self._array.add_attribute(as_string(attribute._name),
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("imageds._ImageDSArray.add_attribute", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -5642,7 +6012,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_16__reduce_cython__(CYTHON_UN
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5695,7 +6065,7 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_18__setstate_cython__(CYTHON_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5718,172 +6088,8 @@ static PyObject *__pyx_pf_7imageds_13_ImageDSArray_18__setstate_cython__(CYTHON_
   return __pyx_r;
 }
 
-/* "imageds.pyx":181
- * 
- * class Py_ImageDSDimension:
- *     def __init__(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
- *         self._name = name
- *         self._start = start
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_7imageds_19Py_ImageDSDimension_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_7imageds_19Py_ImageDSDimension_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_19Py_ImageDSDimension_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_7imageds_19Py_ImageDSDimension_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_self = 0;
-  PyObject *__pyx_v_name = 0;
-  PyObject *__pyx_v_start = 0;
-  PyObject *__pyx_v_end = 0;
-  PyObject *__pyx_v_tile_extent = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_name,&__pyx_n_s_start,&__pyx_n_s_end,&__pyx_n_s_tile_extent,0};
-    PyObject* values[5] = {0,0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(1, 181, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(1, 181, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(1, 181, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tile_extent)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(1, 181, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 181, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-    }
-    __pyx_v_self = values[0];
-    __pyx_v_name = values[1];
-    __pyx_v_start = values[2];
-    __pyx_v_end = values[3];
-    __pyx_v_tile_extent = values[4];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 181, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("imageds.Py_ImageDSDimension.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7imageds_19Py_ImageDSDimension___init__(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_start, __pyx_v_end, __pyx_v_tile_extent);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_7imageds_19Py_ImageDSDimension___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_start, PyObject *__pyx_v_end, PyObject *__pyx_v_tile_extent) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__", 0);
-
-  /* "imageds.pyx":182
- * class Py_ImageDSDimension:
- *     def __init__(self, name, start, end, tile_extent):
- *         self._name = name             # <<<<<<<<<<<<<<
- *         self._start = start
- *         self._end = end
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name_2, __pyx_v_name) < 0) __PYX_ERR(1, 182, __pyx_L1_error)
-
-  /* "imageds.pyx":183
- *     def __init__(self, name, start, end, tile_extent):
- *         self._name = name
- *         self._start = start             # <<<<<<<<<<<<<<
- *         self._end = end
- *         self._tile_extent = tile_extent
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_start_2, __pyx_v_start) < 0) __PYX_ERR(1, 183, __pyx_L1_error)
-
-  /* "imageds.pyx":184
- *         self._name = name
- *         self._start = start
- *         self._end = end             # <<<<<<<<<<<<<<
- *         self._tile_extent = tile_extent
- * 
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_end_2, __pyx_v_end) < 0) __PYX_ERR(1, 184, __pyx_L1_error)
-
-  /* "imageds.pyx":185
- *         self._start = start
- *         self._end = end
- *         self._tile_extent = tile_extent             # <<<<<<<<<<<<<<
- * 
- * def array_dimension(name, start, end, tile_extent):
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_tile_extent_2, __pyx_v_tile_extent) < 0) __PYX_ERR(1, 185, __pyx_L1_error)
-
-  /* "imageds.pyx":181
- * 
- * class Py_ImageDSDimension:
- *     def __init__(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
- *         self._name = name
- *         self._start = start
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("imageds.Py_ImageDSDimension.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "imageds.pyx":187
- *         self._tile_extent = tile_extent
+/* "imageds.pyx":206
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")
  * 
  * def array_dimension(name, start, end, tile_extent):             # <<<<<<<<<<<<<<
  *     return Py_ImageDSDimension(name, start, end, tile_extent)
@@ -5928,23 +6134,23 @@ static PyObject *__pyx_pw_7imageds_5array_dimension(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, 1); __PYX_ERR(1, 187, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, 1); __PYX_ERR(1, 206, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_end)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, 2); __PYX_ERR(1, 187, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, 2); __PYX_ERR(1, 206, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tile_extent)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, 3); __PYX_ERR(1, 187, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, 3); __PYX_ERR(1, 206, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "array_dimension") < 0)) __PYX_ERR(1, 187, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "array_dimension") < 0)) __PYX_ERR(1, 206, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5961,7 +6167,7 @@ static PyObject *__pyx_pw_7imageds_5array_dimension(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 187, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("array_dimension", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 206, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("imageds.array_dimension", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5984,15 +6190,15 @@ static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__py
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("array_dimension", 0);
 
-  /* "imageds.pyx":188
+  /* "imageds.pyx":207
  * 
  * def array_dimension(name, start, end, tile_extent):
  *     return Py_ImageDSDimension(name, start, end, tile_extent)             # <<<<<<<<<<<<<<
  * 
- * class Py_ImageDSAttribute:
+ * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Py_ImageDSDimension); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 188, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Py_ImageDSDimension); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -6009,7 +6215,7 @@ static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__py
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_3, __pyx_v_name, __pyx_v_start, __pyx_v_end, __pyx_v_tile_extent};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 188, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -6017,13 +6223,13 @@ static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__py
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_3, __pyx_v_name, __pyx_v_start, __pyx_v_end, __pyx_v_tile_extent};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 188, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 4+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(4+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 188, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(4+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 207, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -6040,7 +6246,7 @@ static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__py
     __Pyx_INCREF(__pyx_v_tile_extent);
     __Pyx_GIVEREF(__pyx_v_tile_extent);
     PyTuple_SET_ITEM(__pyx_t_5, 3+__pyx_t_4, __pyx_v_tile_extent);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 188, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -6049,8 +6255,8 @@ static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__py
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "imageds.pyx":187
- *         self._tile_extent = tile_extent
+  /* "imageds.pyx":206
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")
  * 
  * def array_dimension(name, start, end, tile_extent):             # <<<<<<<<<<<<<<
  *     return Py_ImageDSDimension(name, start, end, tile_extent)
@@ -6071,180 +6277,8 @@ static PyObject *__pyx_pf_7imageds_4array_dimension(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "imageds.pyx":191
- * 
- * class Py_ImageDSAttribute:
- *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):             # <<<<<<<<<<<<<<
- *         self._name = name
- *         self._attr_type = attr_type
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_7imageds_19Py_ImageDSAttribute_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_7imageds_19Py_ImageDSAttribute_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_19Py_ImageDSAttribute_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_7imageds_19Py_ImageDSAttribute_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_self = 0;
-  PyObject *__pyx_v_name = 0;
-  attr_type_t __pyx_v_attr_type;
-  compression_t __pyx_v_compression;
-  PyObject *__pyx_v_compression_level = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_name,&__pyx_n_s_attr_type,&__pyx_n_s_compression,&__pyx_n_s_compression_level,0};
-    PyObject* values[5] = {0,0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(1, 191, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_attr_type)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(1, 191, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_compression)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(1, 191, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_compression_level)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(1, 191, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 191, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-    }
-    __pyx_v_self = values[0];
-    __pyx_v_name = values[1];
-    __pyx_v_attr_type = ((attr_type_t)__Pyx_PyInt_As_attr_type_t(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 191, __pyx_L3_error)
-    __pyx_v_compression = ((compression_t)__Pyx_PyInt_As_compression_t(values[3])); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 191, __pyx_L3_error)
-    __pyx_v_compression_level = values[4];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 191, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("imageds.Py_ImageDSAttribute.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7imageds_19Py_ImageDSAttribute___init__(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_attr_type, __pyx_v_compression, __pyx_v_compression_level);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_7imageds_19Py_ImageDSAttribute___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, attr_type_t __pyx_v_attr_type, compression_t __pyx_v_compression, PyObject *__pyx_v_compression_level) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__init__", 0);
-
-  /* "imageds.pyx":192
- * class Py_ImageDSAttribute:
- *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
- *         self._name = name             # <<<<<<<<<<<<<<
- *         self._attr_type = attr_type
- *         self._compression = compression
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name_2, __pyx_v_name) < 0) __PYX_ERR(1, 192, __pyx_L1_error)
-
-  /* "imageds.pyx":193
- *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
- *         self._name = name
- *         self._attr_type = attr_type             # <<<<<<<<<<<<<<
- *         self._compression = compression
- *         self._compression_level = compression_level
- */
-  __pyx_t_1 = __Pyx_PyInt_From_attr_type_t(__pyx_v_attr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 193, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_attr_type_2, __pyx_t_1) < 0) __PYX_ERR(1, 193, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "imageds.pyx":194
- *         self._name = name
- *         self._attr_type = attr_type
- *         self._compression = compression             # <<<<<<<<<<<<<<
- *         self._compression_level = compression_level
- * 
- */
-  __pyx_t_1 = __Pyx_PyInt_From_compression_t(__pyx_v_compression); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 194, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_compression_2, __pyx_t_1) < 0) __PYX_ERR(1, 194, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "imageds.pyx":195
- *         self._attr_type = attr_type
- *         self._compression = compression
- *         self._compression_level = compression_level             # <<<<<<<<<<<<<<
- * 
- * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_compression_level_2, __pyx_v_compression_level) < 0) __PYX_ERR(1, 195, __pyx_L1_error)
-
-  /* "imageds.pyx":191
- * 
- * class Py_ImageDSAttribute:
- *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):             # <<<<<<<<<<<<<<
- *         self._name = name
- *         self._attr_type = attr_type
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("imageds.Py_ImageDSAttribute.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "imageds.pyx":197
- *         self._compression_level = compression_level
+/* "imageds.pyx":209
+ *     return Py_ImageDSDimension(name, start, end, tile_extent)
  * 
  * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
@@ -6290,7 +6324,7 @@ static PyObject *__pyx_pw_7imageds_7cell_attribute(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dtype)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cell_attribute", 0, 2, 4, 1); __PYX_ERR(1, 197, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cell_attribute", 0, 2, 4, 1); __PYX_ERR(1, 209, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -6306,7 +6340,7 @@ static PyObject *__pyx_pw_7imageds_7cell_attribute(PyObject *__pyx_self, PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cell_attribute") < 0)) __PYX_ERR(1, 197, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cell_attribute") < 0)) __PYX_ERR(1, 209, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -6323,15 +6357,15 @@ static PyObject *__pyx_pw_7imageds_7cell_attribute(PyObject *__pyx_self, PyObjec
     __pyx_v_name = values[0];
     __pyx_v_dtype = values[1];
     if (values[2]) {
-      __pyx_v_compression = ((compression_t)__Pyx_PyInt_As_compression_t(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 197, __pyx_L3_error)
+      __pyx_v_compression = ((compression_t)__Pyx_PyInt_As_compression_t(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 209, __pyx_L3_error)
     } else {
-      __pyx_v_compression = __pyx_k__10;
+      __pyx_v_compression = __pyx_k__11;
     }
     __pyx_v_compression_level = values[3];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cell_attribute", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 197, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cell_attribute", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 209, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("imageds.cell_attribute", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6356,7 +6390,7 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("cell_attribute", 0);
 
-  /* "imageds.pyx":198
+  /* "imageds.pyx":210
  * 
  * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)             # <<<<<<<<<<<<<<
@@ -6364,11 +6398,11 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
  * def define_array(path, dimensions, attributes):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Py_ImageDSAttribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 198, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Py_ImageDSAttribute); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_attr_type_t(__pyx_f_7imageds_to_attr_type(__pyx_v_dtype)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 198, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_attr_type_t(__pyx_f_7imageds_to_attr_type(__pyx_v_dtype)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_compression_t(__pyx_v_compression); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 198, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_compression_t(__pyx_v_compression); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -6385,7 +6419,7 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_5, __pyx_v_name, __pyx_t_3, __pyx_t_4, __pyx_v_compression_level};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 4+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 4+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 210, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6395,7 +6429,7 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_5, __pyx_v_name, __pyx_t_3, __pyx_t_4, __pyx_v_compression_level};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 4+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 4+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 210, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6403,7 +6437,7 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(4+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 198, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(4+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -6420,7 +6454,7 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
     PyTuple_SET_ITEM(__pyx_t_7, 3+__pyx_t_6, __pyx_v_compression_level);
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -6429,8 +6463,8 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "imageds.pyx":197
- *         self._compression_level = compression_level
+  /* "imageds.pyx":209
+ *     return Py_ImageDSDimension(name, start, end, tile_extent)
  * 
  * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
@@ -6453,7 +6487,7 @@ static PyObject *__pyx_pf_7imageds_6cell_attribute(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "imageds.pyx":200
+/* "imageds.pyx":212
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
  * 
  * def define_array(path, dimensions, attributes):             # <<<<<<<<<<<<<<
@@ -6496,17 +6530,17 @@ static PyObject *__pyx_pw_7imageds_9define_array(PyObject *__pyx_self, PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dimensions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("define_array", 1, 3, 3, 1); __PYX_ERR(1, 200, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("define_array", 1, 3, 3, 1); __PYX_ERR(1, 212, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_attributes)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("define_array", 1, 3, 3, 2); __PYX_ERR(1, 200, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("define_array", 1, 3, 3, 2); __PYX_ERR(1, 212, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "define_array") < 0)) __PYX_ERR(1, 200, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "define_array") < 0)) __PYX_ERR(1, 212, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -6521,7 +6555,7 @@ static PyObject *__pyx_pw_7imageds_9define_array(PyObject *__pyx_self, PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("define_array", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 200, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("define_array", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 212, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("imageds.define_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6547,54 +6581,48 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
   PyObject *(*__pyx_t_5)(PyObject *);
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  int __pyx_t_12;
-  PyObject *__pyx_t_13 = NULL;
   __Pyx_RefNannySetupContext("define_array", 0);
 
-  /* "imageds.pyx":201
+  /* "imageds.pyx":213
  * 
  * def define_array(path, dimensions, attributes):
  *     cdef imageds_array = _ImageDSArray(as_string(path))             # <<<<<<<<<<<<<<
  *     if len(dimensions) == 0:
  *         raise RuntimeError("Specify at least one dimension while defining array")
  */
-  __pyx_t_1 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_f_7imageds_as_string(__pyx_v_path)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_f_7imageds_as_string(__pyx_v_path)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7imageds__ImageDSArray), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7imageds__ImageDSArray), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_imageds_array = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "imageds.pyx":202
+  /* "imageds.pyx":214
  * def define_array(path, dimensions, attributes):
  *     cdef imageds_array = _ImageDSArray(as_string(path))
  *     if len(dimensions) == 0:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("Specify at least one dimension while defining array")
  *     if len(attributes) == 0:
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_dimensions); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 202, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_dimensions); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 214, __pyx_L1_error)
   __pyx_t_4 = ((__pyx_t_3 == 0) != 0);
   if (unlikely(__pyx_t_4)) {
 
-    /* "imageds.pyx":203
+    /* "imageds.pyx":215
  *     cdef imageds_array = _ImageDSArray(as_string(path))
  *     if len(dimensions) == 0:
  *         raise RuntimeError("Specify at least one dimension while defining array")             # <<<<<<<<<<<<<<
  *     if len(attributes) == 0:
  *         raise RuntimeError("Specify at least one attribute while defining array")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 203, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 215, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 203, __pyx_L1_error)
+    __PYX_ERR(1, 215, __pyx_L1_error)
 
-    /* "imageds.pyx":202
+    /* "imageds.pyx":214
  * def define_array(path, dimensions, attributes):
  *     cdef imageds_array = _ImageDSArray(as_string(path))
  *     if len(dimensions) == 0:             # <<<<<<<<<<<<<<
@@ -6603,31 +6631,31 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
  */
   }
 
-  /* "imageds.pyx":204
+  /* "imageds.pyx":216
  *     if len(dimensions) == 0:
  *         raise RuntimeError("Specify at least one dimension while defining array")
  *     if len(attributes) == 0:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("Specify at least one attribute while defining array")
  *     for dimension in dimensions:
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_attributes); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_attributes); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 216, __pyx_L1_error)
   __pyx_t_4 = ((__pyx_t_3 == 0) != 0);
   if (unlikely(__pyx_t_4)) {
 
-    /* "imageds.pyx":205
+    /* "imageds.pyx":217
  *         raise RuntimeError("Specify at least one dimension while defining array")
  *     if len(attributes) == 0:
  *         raise RuntimeError("Specify at least one attribute while defining array")             # <<<<<<<<<<<<<<
  *     for dimension in dimensions:
- *         imageds_array.add_dimension(as_string(dimension._name),
+ *         imageds_array.add_dimension(dimension)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 205, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 205, __pyx_L1_error)
+    __PYX_ERR(1, 217, __pyx_L1_error)
 
-    /* "imageds.pyx":204
+    /* "imageds.pyx":216
  *     if len(dimensions) == 0:
  *         raise RuntimeError("Specify at least one dimension while defining array")
  *     if len(attributes) == 0:             # <<<<<<<<<<<<<<
@@ -6636,37 +6664,37 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
  */
   }
 
-  /* "imageds.pyx":206
+  /* "imageds.pyx":218
  *     if len(attributes) == 0:
  *         raise RuntimeError("Specify at least one attribute while defining array")
  *     for dimension in dimensions:             # <<<<<<<<<<<<<<
- *         imageds_array.add_dimension(as_string(dimension._name),
- *                                     dimension._start,
+ *         imageds_array.add_dimension(dimension)
+ *     for attribute in attributes:
  */
   if (likely(PyList_CheckExact(__pyx_v_dimensions)) || PyTuple_CheckExact(__pyx_v_dimensions)) {
     __pyx_t_2 = __pyx_v_dimensions; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_dimensions); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 206, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_dimensions); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 206, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 218, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 206, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 218, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 206, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 218, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 206, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 218, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 206, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 218, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -6676,7 +6704,7 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 206, __pyx_L1_error)
+          else __PYX_ERR(1, 218, __pyx_L1_error)
         }
         break;
       }
@@ -6685,152 +6713,73 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
     __Pyx_XDECREF_SET(__pyx_v_dimension, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "imageds.pyx":207
+    /* "imageds.pyx":219
  *         raise RuntimeError("Specify at least one attribute while defining array")
  *     for dimension in dimensions:
- *         imageds_array.add_dimension(as_string(dimension._name),             # <<<<<<<<<<<<<<
- *                                     dimension._start,
- *                                     dimension._end,
+ *         imageds_array.add_dimension(dimension)             # <<<<<<<<<<<<<<
+ *     for attribute in attributes:
+ *         imageds_array.add_attribute(attribute)
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_imageds_array, __pyx_n_s_add_dimension); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 207, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_imageds_array, __pyx_n_s_add_dimension); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 219, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_name_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 207, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_f_7imageds_as_string(__pyx_t_7)); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 207, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-    /* "imageds.pyx":208
- *     for dimension in dimensions:
- *         imageds_array.add_dimension(as_string(dimension._name),
- *                                     dimension._start,             # <<<<<<<<<<<<<<
- *                                     dimension._end,
- *                                     dimension._tile_extent)
- */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_start_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 208, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-
-    /* "imageds.pyx":209
- *         imageds_array.add_dimension(as_string(dimension._name),
- *                                     dimension._start,
- *                                     dimension._end,             # <<<<<<<<<<<<<<
- *                                     dimension._tile_extent)
- *     for attribute in attributes:
- */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_end_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 209, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-
-    /* "imageds.pyx":210
- *                                     dimension._start,
- *                                     dimension._end,
- *                                     dimension._tile_extent)             # <<<<<<<<<<<<<<
- *     for attribute in attributes:
- *         imageds_array.add_attribute(as_string(attribute._name),
- */
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_dimension, __pyx_n_s_tile_extent_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 210, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_11 = NULL;
-    __pyx_t_12 = 0;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_11)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_11);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_6, function);
-        __pyx_t_12 = 1;
       }
     }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[5] = {__pyx_t_11, __pyx_t_8, __pyx_t_7, __pyx_t_9, __pyx_t_10};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 4+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[5] = {__pyx_t_11, __pyx_t_8, __pyx_t_7, __pyx_t_9, __pyx_t_10};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 4+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_13 = PyTuple_New(4+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 207, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-      if (__pyx_t_11) {
-        __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11); __pyx_t_11 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_8);
-      PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_12, __pyx_t_8);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyTuple_SET_ITEM(__pyx_t_13, 2+__pyx_t_12, __pyx_t_9);
-      __Pyx_GIVEREF(__pyx_t_10);
-      PyTuple_SET_ITEM(__pyx_t_13, 3+__pyx_t_12, __pyx_t_10);
-      __pyx_t_8 = 0;
-      __pyx_t_7 = 0;
-      __pyx_t_9 = 0;
-      __pyx_t_10 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    }
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_v_dimension) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_dimension);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 219, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "imageds.pyx":206
+    /* "imageds.pyx":218
  *     if len(attributes) == 0:
  *         raise RuntimeError("Specify at least one attribute while defining array")
  *     for dimension in dimensions:             # <<<<<<<<<<<<<<
- *         imageds_array.add_dimension(as_string(dimension._name),
- *                                     dimension._start,
+ *         imageds_array.add_dimension(dimension)
+ *     for attribute in attributes:
  */
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "imageds.pyx":211
- *                                     dimension._end,
- *                                     dimension._tile_extent)
+  /* "imageds.pyx":220
+ *     for dimension in dimensions:
+ *         imageds_array.add_dimension(dimension)
  *     for attribute in attributes:             # <<<<<<<<<<<<<<
- *         imageds_array.add_attribute(as_string(attribute._name),
- *                                     attribute._attr_type,
+ *         imageds_array.add_attribute(attribute)
+ *     return imageds_array
  */
   if (likely(PyList_CheckExact(__pyx_v_attributes)) || PyTuple_CheckExact(__pyx_v_attributes)) {
     __pyx_t_2 = __pyx_v_attributes; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_attributes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 211, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_attributes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 211, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 220, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 211, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 220, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 211, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 220, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -6840,7 +6789,7 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 211, __pyx_L1_error)
+          else __PYX_ERR(1, 220, __pyx_L1_error)
         }
         break;
       }
@@ -6849,124 +6798,45 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
     __Pyx_XDECREF_SET(__pyx_v_attribute, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "imageds.pyx":212
- *                                     dimension._tile_extent)
+    /* "imageds.pyx":221
+ *         imageds_array.add_dimension(dimension)
  *     for attribute in attributes:
- *         imageds_array.add_attribute(as_string(attribute._name),             # <<<<<<<<<<<<<<
- *                                     attribute._attr_type,
- *                                     attribute._compression,
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_imageds_array, __pyx_n_s_add_attribute); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 212, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_name_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 212, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_10 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_f_7imageds_as_string(__pyx_t_13)); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 212, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-
-    /* "imageds.pyx":213
- *     for attribute in attributes:
- *         imageds_array.add_attribute(as_string(attribute._name),
- *                                     attribute._attr_type,             # <<<<<<<<<<<<<<
- *                                     attribute._compression,
- *                                     attribute._compression_level)
- */
-    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_attr_type_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 213, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-
-    /* "imageds.pyx":214
- *         imageds_array.add_attribute(as_string(attribute._name),
- *                                     attribute._attr_type,
- *                                     attribute._compression,             # <<<<<<<<<<<<<<
- *                                     attribute._compression_level)
- *     return imageds_array
- */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_compression_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 214, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-
-    /* "imageds.pyx":215
- *                                     attribute._attr_type,
- *                                     attribute._compression,
- *                                     attribute._compression_level)             # <<<<<<<<<<<<<<
+ *         imageds_array.add_attribute(attribute)             # <<<<<<<<<<<<<<
  *     return imageds_array
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_attribute, __pyx_n_s_compression_level_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 215, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = NULL;
-    __pyx_t_12 = 0;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_imageds_array, __pyx_n_s_add_attribute); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 221, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_8)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_6, function);
-        __pyx_t_12 = 1;
       }
     }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_10, __pyx_t_13, __pyx_t_9, __pyx_t_7};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 4+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_10, __pyx_t_13, __pyx_t_9, __pyx_t_7};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 4+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_11 = PyTuple_New(4+__pyx_t_12); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 212, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      if (__pyx_t_8) {
-        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_8); __pyx_t_8 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_10);
-      PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_12, __pyx_t_10);
-      __Pyx_GIVEREF(__pyx_t_13);
-      PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_12, __pyx_t_13);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyTuple_SET_ITEM(__pyx_t_11, 2+__pyx_t_12, __pyx_t_9);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_11, 3+__pyx_t_12, __pyx_t_7);
-      __pyx_t_10 = 0;
-      __pyx_t_13 = 0;
-      __pyx_t_9 = 0;
-      __pyx_t_7 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    }
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_v_attribute) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_attribute);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 221, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "imageds.pyx":211
- *                                     dimension._end,
- *                                     dimension._tile_extent)
+    /* "imageds.pyx":220
+ *     for dimension in dimensions:
+ *         imageds_array.add_dimension(dimension)
  *     for attribute in attributes:             # <<<<<<<<<<<<<<
- *         imageds_array.add_attribute(as_string(attribute._name),
- *                                     attribute._attr_type,
+ *         imageds_array.add_attribute(attribute)
+ *     return imageds_array
  */
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "imageds.pyx":216
- *                                     attribute._compression,
- *                                     attribute._compression_level)
+  /* "imageds.pyx":222
+ *     for attribute in attributes:
+ *         imageds_array.add_attribute(attribute)
  *     return imageds_array             # <<<<<<<<<<<<<<
  * 
  */
@@ -6975,7 +6845,7 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_r = __pyx_v_imageds_array;
   goto __pyx_L0;
 
-  /* "imageds.pyx":200
+  /* "imageds.pyx":212
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
  * 
  * def define_array(path, dimensions, attributes):             # <<<<<<<<<<<<<<
@@ -6989,11 +6859,6 @@ static PyObject *__pyx_pf_7imageds_8define_array(CYTHON_UNUSED PyObject *__pyx_s
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_13);
   __Pyx_AddTraceback("imageds.define_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -7122,7 +6987,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 272, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7178,7 +7043,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 276, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 276, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7436,7 +7301,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 306, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 306, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8316,7 +8181,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 856, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 856, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8384,7 +8249,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 860, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 860, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8493,7 +8358,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 880, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 880, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -9121,7 +8986,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1038, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1038, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -9250,7 +9115,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1044, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1044, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -9376,7 +9241,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1050, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1050, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -9656,68 +9521,6 @@ static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_st
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-
-/* "string.from_py":13
- * 
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- */
-
-static std::string __pyx_convert_string_from_py_std__in_string(PyObject *__pyx_v_o) {
-  Py_ssize_t __pyx_v_length;
-  char const *__pyx_v_data;
-  std::string __pyx_r;
-  __Pyx_RefNannyDeclarations
-  char const *__pyx_t_1;
-  __Pyx_RefNannySetupContext("__pyx_convert_string_from_py_std__in_string", 0);
-
-  /* "string.from_py":14
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:
- *     cdef Py_ssize_t length = 0             # <<<<<<<<<<<<<<
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- *     return string(data, length)
- */
-  __pyx_v_length = 0;
-
-  /* "string.from_py":15
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)             # <<<<<<<<<<<<<<
- *     return string(data, length)
- * 
- */
-  __pyx_t_1 = __Pyx_PyObject_AsStringAndSize(__pyx_v_o, (&__pyx_v_length)); if (unlikely(__pyx_t_1 == ((char const *)NULL))) __PYX_ERR(2, 15, __pyx_L1_error)
-  __pyx_v_data = __pyx_t_1;
-
-  /* "string.from_py":16
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- *     return string(data, length)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_r = std::string(__pyx_v_data, __pyx_v_length);
-  goto __pyx_L0;
-
-  /* "string.from_py":13
- * 
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("string.from_py.__pyx_convert_string_from_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_pretend_to_initialize(&__pyx_r);
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
 static struct __pyx_vtabstruct_7imageds__ImageDS __pyx_vtable_7imageds__ImageDS;
 
 static PyObject *__pyx_tp_new_7imageds__ImageDS(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
@@ -9871,8 +9674,8 @@ static int __pyx_mp_ass_subscript_7imageds__ImageDSArray(PyObject *o, PyObject *
 
 static PyMethodDef __pyx_methods_7imageds__ImageDSArray[] = {
   {"__array__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_13_ImageDSArray_7__array__, METH_VARARGS|METH_KEYWORDS, 0},
-  {"add_dimension", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_13_ImageDSArray_13add_dimension, METH_VARARGS|METH_KEYWORDS, 0},
-  {"add_attribute", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7imageds_13_ImageDSArray_15add_attribute, METH_VARARGS|METH_KEYWORDS, 0},
+  {"add_dimension", (PyCFunction)__pyx_pw_7imageds_13_ImageDSArray_13add_dimension, METH_O, 0},
+  {"add_attribute", (PyCFunction)__pyx_pw_7imageds_13_ImageDSArray_15add_attribute, METH_O, 0},
   {"__reduce_cython__", (PyCFunction)__pyx_pw_7imageds_13_ImageDSArray_17__reduce_cython__, METH_NOARGS, 0},
   {"__setstate_cython__", (PyCFunction)__pyx_pw_7imageds_13_ImageDSArray_19__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
@@ -10034,6 +9837,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_NONE, __pyx_k_NONE, sizeof(__pyx_k_NONE), 0, 0, 1, 1},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_kp_u_Only_ImageDS_arrays_with_1_attri, __pyx_k_Only_ImageDS_arrays_with_1_attri, sizeof(__pyx_k_Only_ImageDS_arrays_with_1_attri), 0, 1, 0, 0},
+  {&__pyx_kp_u_Only_Py_ImageDSAttribute_type_su, __pyx_k_Only_Py_ImageDSAttribute_type_su, sizeof(__pyx_k_Only_Py_ImageDSAttribute_type_su), 0, 1, 0, 0},
+  {&__pyx_kp_u_Only_Py_ImageDSDimension_type_su, __pyx_k_Only_Py_ImageDSDimension_type_su, sizeof(__pyx_k_Only_Py_ImageDSDimension_type_su), 0, 1, 0, 0},
   {&__pyx_kp_u_Only_reading_the_entire_array_wi, __pyx_k_Only_reading_the_entire_array_wi, sizeof(__pyx_k_Only_reading_the_entire_array_wi), 0, 1, 0, 0},
   {&__pyx_kp_u_Only_writing_the_entire_array_wi, __pyx_k_Only_writing_the_entire_array_wi, sizeof(__pyx_k_Only_writing_the_entire_array_wi), 0, 1, 0, 0},
   {&__pyx_n_s_Py_ImageDSAttribute, __pyx_k_Py_ImageDSAttribute, sizeof(__pyx_k_Py_ImageDSAttribute), 0, 0, 1, 1},
@@ -10147,7 +9952,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 39, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 96, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 101, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 159, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 173, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 272, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(3, 1038, __pyx_L1_error)
   return 0;
@@ -10189,38 +9994,60 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "imageds.pyx":125
+  /* "imageds.pyx":139
  *     def __setitem__(self, key, value):
  *         if self._array.attributes().size() != 1:
  *             raise RuntimeError("Only ImageDS arrays with 1 attribute is supported for now")             # <<<<<<<<<<<<<<
  *         if not isinstance(key, slice):
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Only_ImageDS_arrays_with_1_attri); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 125, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Only_ImageDS_arrays_with_1_attri); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "imageds.pyx":131
+  /* "imageds.pyx":145
  *             raise TypeError("Unsupported subscriptable value type '{0}'".format(type(value)))
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only writing the entire array with all dimensions/attributes supported for now")             # <<<<<<<<<<<<<<
  *         assert(value.ndim == self._array.dimensions().size())
  *         assert(value.flags.c_contiguous)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Only_writing_the_entire_array_wi); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 131, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Only_writing_the_entire_array_wi); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "imageds.pyx":156
+  /* "imageds.pyx":170
  *             raise TypeError("Unsupported subscriptable key type '{0}'".format(type(key)))
  *         if key.start != None or key.stop != None or key.step != None:
  *             raise RuntimeError("Only reading the entire array with all dimensions/attributes supported for now")             # <<<<<<<<<<<<<<
  *         nbytes = 0
  *         dim_list = []
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Only_reading_the_entire_array_wi); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Only_reading_the_entire_array_wi); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
+
+  /* "imageds.pyx":195
+ *                                       dimension._tile_extent)
+ *         else:
+ *             raise TypeError("Only Py_ImageDSDimension type supported as argument")             # <<<<<<<<<<<<<<
+ * 
+ *     def add_attribute(self, attribute):
+ */
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Only_Py_ImageDSDimension_type_su); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 195, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+
+  /* "imageds.pyx":204
+ *                                       attribute._compression_level)
+ *         else:
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")             # <<<<<<<<<<<<<<
+ * 
+ * def array_dimension(name, start, end, tile_extent):
+ */
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Only_Py_ImageDSAttribute_type_su); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -10228,40 +10055,40 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "imageds.pyx":203
+  /* "imageds.pyx":215
  *     cdef imageds_array = _ImageDSArray(as_string(path))
  *     if len(dimensions) == 0:
  *         raise RuntimeError("Specify at least one dimension while defining array")             # <<<<<<<<<<<<<<
  *     if len(attributes) == 0:
  *         raise RuntimeError("Specify at least one attribute while defining array")
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Specify_at_least_one_dimension_w); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 203, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Specify_at_least_one_dimension_w); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 215, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "imageds.pyx":205
+  /* "imageds.pyx":217
  *         raise RuntimeError("Specify at least one dimension while defining array")
  *     if len(attributes) == 0:
  *         raise RuntimeError("Specify at least one attribute while defining array")             # <<<<<<<<<<<<<<
  *     for dimension in dimensions:
- *         imageds_array.add_dimension(as_string(dimension._name),
+ *         imageds_array.add_dimension(dimension)
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Specify_at_least_one_attribute_w); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 205, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Specify_at_least_one_attribute_w); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":272
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
@@ -10270,9 +10097,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(3, 272, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(3, 272, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":276
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -10281,9 +10108,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(3, 276, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(3, 276, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":306
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -10292,9 +10119,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(3, 306, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(3, 306, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":856
  * 
@@ -10303,9 +10130,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(3, 856, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(3, 856, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":880
  *             t = child.type_num
@@ -10314,9 +10141,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(3, 880, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(3, 880, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":1038
  *         _import_array()
@@ -10325,9 +10152,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(3, 1038, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(3, 1038, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* ".eggs/Cython-0.29.14-py3.7-macosx-10.14-x86_64.egg/Cython/Includes/numpy/__init__.pxd":1044
  *         _import_umath()
@@ -10336,9 +10163,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(3, 1044, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(3, 1044, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "imageds.pyx":78
  *     raise TypeError("Unsupported attribute data type {0}".format(attr_type))
@@ -10347,10 +10174,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     version_string = imageds_version()
  *     return version_string
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_s_version_string); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_version, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(1, 78, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_version_string); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_version, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(1, 78, __pyx_L1_error)
 
   /* "imageds.pyx":110
  * 
@@ -10359,70 +10186,70 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     global _imageds # necessary
  *     _imageds = _ImageDS(workspace)
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_n_s_workspace); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 110, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_setup, 110, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(1, 110, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_n_s_workspace); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_setup, 110, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(1, 110, __pyx_L1_error)
 
-  /* "imageds.pyx":181
+  /* "imageds.pyx":115
  * 
  * class Py_ImageDSDimension:
  *     def __init__(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
  *         self._name = name
  *         self._start = start
  */
-  __pyx_tuple__24 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_tile_extent); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 181, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_init, 181, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 181, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_tile_extent); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_init, 115, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 115, __pyx_L1_error)
 
-  /* "imageds.pyx":187
- *         self._tile_extent = tile_extent
- * 
- * def array_dimension(name, start, end, tile_extent):             # <<<<<<<<<<<<<<
- *     return Py_ImageDSDimension(name, start, end, tile_extent)
- * 
- */
-  __pyx_tuple__26 = PyTuple_Pack(4, __pyx_n_s_name, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_tile_extent); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 187, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_array_dimension, 187, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 187, __pyx_L1_error)
-
-  /* "imageds.pyx":191
+  /* "imageds.pyx":122
  * 
  * class Py_ImageDSAttribute:
  *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):             # <<<<<<<<<<<<<<
  *         self._name = name
  *         self._attr_type = attr_type
  */
-  __pyx_tuple__28 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_attr_type, __pyx_n_s_compression, __pyx_n_s_compression_level); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 191, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_init, 191, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 191, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_attr_type, __pyx_n_s_compression, __pyx_n_s_compression_level); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_init, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(1, 122, __pyx_L1_error)
 
-  /* "imageds.pyx":197
- *         self._compression_level = compression_level
+  /* "imageds.pyx":206
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")
+ * 
+ * def array_dimension(name, start, end, tile_extent):             # <<<<<<<<<<<<<<
+ *     return Py_ImageDSDimension(name, start, end, tile_extent)
+ * 
+ */
+  __pyx_tuple__29 = PyTuple_Pack(4, __pyx_n_s_name, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_tile_extent); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_array_dimension, 206, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(1, 206, __pyx_L1_error)
+
+  /* "imageds.pyx":209
+ *     return Py_ImageDSDimension(name, start, end, tile_extent)
  * 
  * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
  * 
  */
-  __pyx_tuple__30 = PyTuple_Pack(4, __pyx_n_s_name, __pyx_n_s_dtype, __pyx_n_s_compression, __pyx_n_s_compression_level); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 197, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_cell_attribute, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(1, 197, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(4, __pyx_n_s_name, __pyx_n_s_dtype, __pyx_n_s_compression, __pyx_n_s_compression_level); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_cell_attribute, 209, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(1, 209, __pyx_L1_error)
 
-  /* "imageds.pyx":200
+  /* "imageds.pyx":212
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
  * 
  * def define_array(path, dimensions, attributes):             # <<<<<<<<<<<<<<
  *     cdef imageds_array = _ImageDSArray(as_string(path))
  *     if len(dimensions) == 0:
  */
-  __pyx_tuple__32 = PyTuple_Pack(6, __pyx_n_s_path, __pyx_n_s_dimensions, __pyx_n_s_attributes, __pyx_n_s_imageds_array, __pyx_n_s_dimension, __pyx_n_s_attribute); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 200, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
-  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_define_array, 200, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(1, 200, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(6, __pyx_n_s_path, __pyx_n_s_dimensions, __pyx_n_s_attributes, __pyx_n_s_imageds_array, __pyx_n_s_dimension, __pyx_n_s_attribute); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 212, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_imageds_pyx, __pyx_n_s_define_array, 212, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -10491,16 +10318,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_7imageds__ImageDS = &__pyx_type_7imageds__ImageDS;
   __pyx_vtabptr_7imageds__ImageDSArray = &__pyx_vtable_7imageds__ImageDSArray;
   __pyx_vtable_7imageds__ImageDSArray.get = (ImageDSArray *(*)(struct __pyx_obj_7imageds__ImageDSArray *))__pyx_f_7imageds_13_ImageDSArray_get;
-  if (PyType_Ready(&__pyx_type_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 114, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 128, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_7imageds__ImageDSArray.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_7imageds__ImageDSArray.tp_dictoffset && __pyx_type_7imageds__ImageDSArray.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_7imageds__ImageDSArray.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_7imageds__ImageDSArray.tp_dict, __pyx_vtabptr_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 114, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ImageDSArray, (PyObject *)&__pyx_type_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 114, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 114, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_7imageds__ImageDSArray.tp_dict, __pyx_vtabptr_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 128, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ImageDSArray, (PyObject *)&__pyx_type_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 128, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7imageds__ImageDSArray) < 0) __PYX_ERR(1, 128, __pyx_L1_error)
   __pyx_ptype_7imageds__ImageDSArray = &__pyx_type_7imageds__ImageDSArray;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -11007,124 +10834,111 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_setup, __pyx_t_1) < 0) __PYX_ERR(1, 110, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "imageds.pyx":177
- *         self._array.add_dimension(name, start, end, tile_extent)
- * 
- *     def add_attribute(self, name, attr_type, compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
- *         self._array.add_attribute(name, attr_type, compression, compression_level)
- * 
- */
-  __pyx_t_1 = __Pyx_PyInt_From_compression_t(NONE); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 177, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_k__7 = __pyx_t_1;
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "imageds.pyx":180
- *         self._array.add_attribute(name, attr_type, compression, compression_level)
+  /* "imageds.pyx":114
+ *     _imageds = _ImageDS(workspace)
  * 
  * class Py_ImageDSDimension:             # <<<<<<<<<<<<<<
  *     def __init__(self, name, start, end, tile_extent):
  *         self._name = name
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Py_ImageDSDimension, __pyx_n_s_Py_ImageDSDimension, (PyObject *) NULL, __pyx_n_s_imageds, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 180, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Py_ImageDSDimension, __pyx_n_s_Py_ImageDSDimension, (PyObject *) NULL, __pyx_n_s_imageds, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "imageds.pyx":181
+  /* "imageds.pyx":115
  * 
  * class Py_ImageDSDimension:
  *     def __init__(self, name, start, end, tile_extent):             # <<<<<<<<<<<<<<
  *         self._name = name
  *         self._start = start
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7imageds_19Py_ImageDSDimension_1__init__, 0, __pyx_n_s_Py_ImageDSDimension___init, NULL, __pyx_n_s_imageds, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 181, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7imageds_19Py_ImageDSDimension_1__init__, 0, __pyx_n_s_Py_ImageDSDimension___init, NULL, __pyx_n_s_imageds, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(1, 181, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(1, 115, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "imageds.pyx":180
- *         self._array.add_attribute(name, attr_type, compression, compression_level)
+  /* "imageds.pyx":114
+ *     _imageds = _ImageDS(workspace)
  * 
  * class Py_ImageDSDimension:             # <<<<<<<<<<<<<<
  *     def __init__(self, name, start, end, tile_extent):
  *         self._name = name
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Py_ImageDSDimension, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 180, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Py_ImageDSDimension, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Py_ImageDSDimension, __pyx_t_2) < 0) __PYX_ERR(1, 180, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Py_ImageDSDimension, __pyx_t_2) < 0) __PYX_ERR(1, 114, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "imageds.pyx":187
+  /* "imageds.pyx":121
  *         self._tile_extent = tile_extent
- * 
- * def array_dimension(name, start, end, tile_extent):             # <<<<<<<<<<<<<<
- *     return Py_ImageDSDimension(name, start, end, tile_extent)
- * 
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7imageds_5array_dimension, NULL, __pyx_n_s_imageds); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 187, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_array_dimension, __pyx_t_1) < 0) __PYX_ERR(1, 187, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "imageds.pyx":190
- *     return Py_ImageDSDimension(name, start, end, tile_extent)
  * 
  * class Py_ImageDSAttribute:             # <<<<<<<<<<<<<<
  *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
  *         self._name = name
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Py_ImageDSAttribute, __pyx_n_s_Py_ImageDSAttribute, (PyObject *) NULL, __pyx_n_s_imageds, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 190, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Py_ImageDSAttribute, __pyx_n_s_Py_ImageDSAttribute, (PyObject *) NULL, __pyx_n_s_imageds, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "imageds.pyx":191
+  /* "imageds.pyx":122
  * 
  * class Py_ImageDSAttribute:
  *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):             # <<<<<<<<<<<<<<
  *         self._name = name
  *         self._attr_type = attr_type
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7imageds_19Py_ImageDSAttribute_1__init__, 0, __pyx_n_s_Py_ImageDSAttribute___init, NULL, __pyx_n_s_imageds, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 191, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_7imageds_19Py_ImageDSAttribute_1__init__, 0, __pyx_n_s_Py_ImageDSAttribute___init, NULL, __pyx_n_s_imageds, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(1, 191, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "imageds.pyx":190
- *     return Py_ImageDSDimension(name, start, end, tile_extent)
+  /* "imageds.pyx":121
+ *         self._tile_extent = tile_extent
  * 
  * class Py_ImageDSAttribute:             # <<<<<<<<<<<<<<
  *     def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
  *         self._name = name
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Py_ImageDSAttribute, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 190, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Py_ImageDSAttribute, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Py_ImageDSAttribute, __pyx_t_2) < 0) __PYX_ERR(1, 190, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Py_ImageDSAttribute, __pyx_t_2) < 0) __PYX_ERR(1, 121, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "imageds.pyx":197
- *         self._compression_level = compression_level
+  /* "imageds.pyx":206
+ *             raise TypeError("Only Py_ImageDSAttribute type supported as argument")
+ * 
+ * def array_dimension(name, start, end, tile_extent):             # <<<<<<<<<<<<<<
+ *     return Py_ImageDSDimension(name, start, end, tile_extent)
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7imageds_5array_dimension, NULL, __pyx_n_s_imageds); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_array_dimension, __pyx_t_1) < 0) __PYX_ERR(1, 206, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "imageds.pyx":209
+ *     return Py_ImageDSDimension(name, start, end, tile_extent)
  * 
  * def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):             # <<<<<<<<<<<<<<
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
  * 
  */
-  __pyx_k__10 = NONE;
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7imageds_7cell_attribute, NULL, __pyx_n_s_imageds); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 197, __pyx_L1_error)
+  __pyx_k__11 = NONE;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7imageds_7cell_attribute, NULL, __pyx_n_s_imageds); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cell_attribute, __pyx_t_1) < 0) __PYX_ERR(1, 197, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cell_attribute, __pyx_t_1) < 0) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "imageds.pyx":200
+  /* "imageds.pyx":212
  *     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
  * 
  * def define_array(path, dimensions, attributes):             # <<<<<<<<<<<<<<
  *     cdef imageds_array = _ImageDSArray(as_string(path))
  *     if len(dimensions) == 0:
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7imageds_9define_array, NULL, __pyx_n_s_imageds); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 200, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_7imageds_9define_array, NULL, __pyx_n_s_imageds); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_define_array, __pyx_t_1) < 0) __PYX_ERR(1, 200, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_define_array, __pyx_t_1) < 0) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "imageds.pyx":1
@@ -11137,12 +10951,12 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "string.from_py":13
+  /* "string.to_py":55
  * 
- * @cname("__pyx_convert_string_from_py_std__in_string")
- * cdef string __pyx_convert_string_from_py_std__in_string(object o) except *:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t length = 0
- *     cdef const char* data = __Pyx_PyObject_AsStringAndSize(o, &length)
+ * @cname("__pyx_convert_PyByteArray_string_to_py_std__in_string")
+ * cdef inline object __pyx_convert_PyByteArray_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
+ *     return __Pyx_PyByteArray_FromStringAndSize(s.data(), s.size())
+ * 
  */
 
   /*--- Wrapped vars code ---*/
@@ -11937,6 +11751,20 @@ bad:
     return -1;
 }
 
+/* PyObjectSetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_setattro))
+        return tp->tp_setattro(obj, attr_name, value);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_setattr))
+        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+#endif
+    return PyObject_SetAttr(obj, attr_name, value);
+}
+#endif
+
 /* ExtTypeTest */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
     if (unlikely(!type)) {
@@ -12085,20 +11913,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
         }
     }
     return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-/* PyObjectSetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_setattro))
-        return tp->tp_setattro(obj, attr_name, value);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_setattr))
-        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
-#endif
-    return PyObject_SetAttr(obj, attr_name, value);
 }
 #endif
 

@@ -111,6 +111,20 @@ def setup(workspace):
     global _imageds # necessary
     _imageds = _ImageDS(workspace)
 
+class Py_ImageDSDimension:
+    def __init__(self, name, start, end, tile_extent):
+        self._name = name
+        self._start = start
+        self._end = end
+        self._tile_extent = tile_extent
+
+class Py_ImageDSAttribute:
+    def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
+        self._name = name
+        self._attr_type = attr_type
+        self._compression = compression
+        self._compression_level = compression_level
+
 cdef class _ImageDSArray(object):
     cdef ImageDSArray* _array
 
@@ -171,28 +185,26 @@ cdef class _ImageDSArray(object):
     cdef ImageDSArray *get(self):
         return self._array
 
-    def add_dimension(self, name, start, end, tile_extent):
-        self._array.add_dimension(name, start, end, tile_extent)
+    def add_dimension(self, dimension):
+        if type(dimension) is Py_ImageDSDimension:
+            self._array.add_dimension(as_string(dimension._name),
+                                      dimension._start,
+                                      dimension._end,
+                                      dimension._tile_extent)
+        else:
+            raise TypeError("Only Py_ImageDSDimension type supported as argument")
 
-    def add_attribute(self, name, attr_type, compression=NONE, compression_level=0):
-        self._array.add_attribute(name, attr_type, compression, compression_level)
-
-class Py_ImageDSDimension:
-    def __init__(self, name, start, end, tile_extent):
-        self._name = name
-        self._start = start
-        self._end = end
-        self._tile_extent = tile_extent
+    def add_attribute(self, attribute):
+        if type(attribute) is Py_ImageDSAttribute:
+            self._array.add_attribute(as_string(attribute._name),
+                                      attribute._attr_type,
+                                      attribute._compression,
+                                      attribute._compression_level)
+        else:
+            raise TypeError("Only Py_ImageDSAttribute type supported as argument")
 
 def array_dimension(name, start, end, tile_extent):
     return Py_ImageDSDimension(name, start, end, tile_extent)
-
-class Py_ImageDSAttribute:
-    def __init__(self, name, attr_type_t attr_type, compression_t compression, compression_level):
-        self._name = name
-        self._attr_type = attr_type
-        self._compression = compression
-        self._compression_level = compression_level
 
 def cell_attribute(name, dtype, compression_t compression=NONE, compression_level=0):
     return Py_ImageDSAttribute(name, to_attr_type(dtype), compression, compression_level)
@@ -204,14 +216,8 @@ def define_array(path, dimensions, attributes):
     if len(attributes) == 0:
         raise RuntimeError("Specify at least one attribute while defining array")
     for dimension in dimensions:
-        imageds_array.add_dimension(as_string(dimension._name),
-                                    dimension._start,
-                                    dimension._end,
-                                    dimension._tile_extent)
+        imageds_array.add_dimension(dimension)
     for attribute in attributes:
-        imageds_array.add_attribute(as_string(attribute._name),
-                                    attribute._attr_type,
-                                    attribute._compression,
-                                    attribute._compression_level)
+        imageds_array.add_attribute(attribute)
     return imageds_array
 
